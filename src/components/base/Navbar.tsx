@@ -37,12 +37,27 @@ const Navbar = () => (
       openMenuButtonColor="#000"
       changeMenuColorOnOpen={true}
       colors={['#B19EEF', '#5227FF']}
-      logoUrl="./Logo.png"
+      logoUrl="/Logo.png"
       accentColor="#ff6b6b"
       isFixed={true}
       onMenuOpen={() => console.log('Menu opened')}
       onMenuClose={() => console.log('Menu closed')}
     />
+    <style>{`
+      .sm-logo-img {
+        width: 110px !important;
+        height: 32px !important;
+        min-width: 110px !important;
+        min-height: 32px !important;
+        max-width: 110px !important;
+        max-height: 32px !important;
+        object-fit: contain !important;
+        aspect-ratio: 110/32 !important;
+        background: transparent !important;
+        transition: none !important;
+        display: block !important;
+      }
+    `}</style>
   </header>
 );
 

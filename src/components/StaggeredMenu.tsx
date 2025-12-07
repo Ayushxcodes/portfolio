@@ -418,10 +418,27 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
             <img
               src={logoUrl || '/src/assets/logos/reactbits-gh-white.svg'}
               alt="Logo"
-              className="sm-logo-img block h-8 w-auto object-contain"
+              className="sm-logo-img block"
               draggable={false}
               width={110}
-              height={24}
+              height={32}
+              style={{
+                width: 110,
+                height: 32,
+                minWidth: 110,
+                minHeight: 32,
+                maxWidth: 110,
+                maxHeight: 32,
+                objectFit: 'contain',
+                aspectRatio: '110/32',
+                background: 'transparent',
+                display: 'block'
+              }}
+              // Optionally, add a placeholder for instant rendering
+              onError={e => {
+                (e.currentTarget as HTMLImageElement).src =
+                  'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+              }}
             />
           </div>
 
