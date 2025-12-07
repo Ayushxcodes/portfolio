@@ -74,6 +74,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
   const itemEntranceTweenRef = useRef<gsap.core.Tween | null>(null);
 
+  const [init, setInit] = useState(false);
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const panel = panelRef.current;
@@ -103,6 +105,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
 
       if (toggleBtnRef.current) gsap.set(toggleBtnRef.current, { color: menuButtonColor });
     });
+    setInit(true);
     return () => ctx.revert();
   }, [menuButtonColor, position]);
 
@@ -383,6 +386,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         style={accentColor ? ({ ['--sm-accent' as any]: accentColor } as React.CSSProperties) : undefined}
         data-position={position}
         data-open={open || undefined}
+        data-init={init || undefined}
       >
         <div
           ref={preLayersRef}
@@ -529,6 +533,16 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       </div>
 
       <style>{`
+.sm-scope .staggered-menu-wrapper:not([data-init]) .staggered-menu-panel,
+.sm-scope .staggered-menu-wrapper:not([data-init]) .sm-prelayers {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.sm-scope .staggered-menu-wrapper[data-init] .staggered-menu-panel,
+.sm-scope .staggered-menu-wrapper[data-init] .sm-prelayers {
+  opacity: 1;
+  pointer-events: auto;
+}
 .sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; }
 .sm-scope .staggered-menu-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 2em; background: transparent; pointer-events: none; z-index: 20; }
 .sm-scope .staggered-menu-header > * { pointer-events: auto; }
