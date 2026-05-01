@@ -24,3 +24,83 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* App-specific global styles moved from page.tsx GLOBAL_CSS */
+html { scroll-behavior: smooth; }
+body { cursor: none; overflow-x: hidden; }
+::selection { background: #d4ff47; color: #000; }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translateX(-50%) translateY(0px); }
+  50%       { transform: translateX(-50%) translateY(-8px); }
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.animate-ticker          { animation: ticker 28s linear infinite; }
+.animate-ticker:hover    { animation-play-state: paused; }
+.animate-float-1         { animation: float1 7s ease-in-out infinite; }
+.animate-float-2         { animation: float2 8s ease-in-out infinite; }
+.animate-float-3         { animation: float3 9s ease-in-out infinite; }
+.animate-cursor-blink    { animation: cursorBlink 1s step-end infinite; }
+/* Fade-up reveal driven by IntersectionObserver */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1),
+              transform 0.7s cubic-bezier(0.23,1,0.32,1);
+}
+.fade-up.in-view { opacity: 1; transform: translateY(0); }
+/* Skill bar fill — triggered when card enters viewport */
+.skill-bar-fill {
+  height: 100%;
+  background: #d4ff47;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
+}
+.skill-card-el.in-view .skill-bar-fill { transform: scaleX(1); }
+/* Acid top border on skill card hover (pseudo-element) */
+.skill-card-el {
+  position: relative;
+  overflow: hidden;
+}
+.skill-card-el::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: #d4ff47;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.skill-card-el:hover::before { transform: scaleX(1); }
+/* Decorative line after section-label */
+.section-label-el::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #222;
+  max-width: 80px;
+}
+/* Decorative line before scroll hint */
+.hero-scroll-el::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: #6a6a6a;
+  display: block;
+}

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Alex Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0c0c0c; --surface: #141414; --border: #222;
+    --acid: #d4ff47; --acid-dim: #a8cc33;
+    --white: #f0ede6; --muted: #6a6a6a;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Syne', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  ::selection { background: var(--acid); color: #000; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--white); font-family: var(--sans); cursor: none; overflow-x: hidden; }
+  #cursor { position: fixed; width: 12px; height: 12px; background: var(--acid); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, width 0.2s, height 0.2s; mix-blend-mode: difference; }
+  #cursor.hover { width: 36px; height: 36px; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 3rem; border-bottom: 1px solid var(--border); background: rgba(12,12,12,0.92); backdrop-filter: blur(12px); }
+  .nav-logo { font-family: var(--mono); font-size: 0.85rem; color: var(--acid); letter-spacing: 0.08em; text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 700; }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-links a.active { color: var(--acid); }
+
+  /* Page header */
+  .page-header {
+    padding: 10rem 3rem 5rem;
+    border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: end;
+  }
+  .page-eyebrow { font-family: var(--mono); font-size: 0.7rem; color: var(--acid); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .page-title { font-family: var(--serif); font-size: clamp(3.5rem, 8vw, 7rem); line-height: 0.92; letter-spacing: -0.02em; }
+  .page-title em { font-style: italic; color: var(--muted); }
+  .page-intro { font-family: var(--mono); font-size: 0.85rem; color: #aaa; line-height: 2; }
+
+  /* Sections */
+  .section { padding: 6rem 3rem; border-bottom: 1px solid var(--border); }
+  .section-label { font-family: var(--mono); font-size: 0.7rem; color: var(--acid); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 80px; }
+
+  /* Story */
+  .story-grid { display: grid; grid-template-columns: 280px 1fr; gap: 5rem; }
+  .story-sidebar { position: sticky; top: 7rem; height: fit-content; }
+  .story-nav { display: flex; flex-direction: column; gap: 0; }
+  .story-nav a { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 0.9rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s, padding-left 0.2s; }
+  .story-nav a:hover { color: var(--acid); padding-left: 0.5rem; }
+  .story-body h3 { font-family: var(--serif); font-size: 2.2rem; margin-bottom: 1.25rem; margin-top: 3rem; }
+  .story-body h3:first-child { margin-top: 0; }
+  .story-body p { font-size: 1.05rem; color: #bbb; line-height: 1.95; margin-bottom: 1.25rem; }
+  .story-body p strong { color: var(--white); }
+  .story-body p em { font-style: italic; color: var(--acid); }
+  .pullquote { border-left: 2px solid var(--acid); padding: 0.5rem 0 0.5rem 2rem; margin: 2.5rem 0; }
+  .pullquote p { font-family: var(--serif); font-size: 1.6rem; line-height: 1.4; color: var(--white); margin: 0; }
+
+  /* Values */
+  .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .value-card { padding: 2.5rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .value-card:nth-child(3n) { border-right: none; }
+  .value-num { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 1rem; }
+  .value-title { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .value-desc { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); line-height: 2; }
+
+  /* Stack */
+  .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .stack-item { padding: 2rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.2s; }
+  .stack-item:nth-child(4n) { border-right: none; }
+  .stack-item:hover { background: var(--surface); }
+  .stack-category { font-family: var(--mono); font-size: 0.65rem; color: var(--acid); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .stack-name { font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem; }
+  .stack-use { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); line-height: 1.7; }
+
+  /* Outside work */
+  .outside-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+  .outside-item { padding: 2.5rem; border-right: 1px solid var(--border); position: relative; overflow: hidden; }
+  .outside-item:last-child { border-right: none; }
+  .outside-item::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--acid); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+  .outside-item:hover::before { transform: scaleX(1); }
+  .outside-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .outside-title { font-family: var(--serif); font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .outside-desc { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); line-height: 1.9; }
+
+  /* CTA */
+  .cta-section { padding: 6rem 3rem; text-align: center; }
+  .cta-headline { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 5rem); line-height: 1; margin-bottom: 2rem; }
+  .cta-headline em { font-style: italic; color: var(--acid); }
+  .cta-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--acid); color: #000; font-family: var(--sans); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 1rem 2rem; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+  .btn-primary:hover { background: #fff; transform: translate(-3px,-3px); }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); color: var(--muted); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 1rem 2rem; text-decoration: none; transition: color 0.2s, border-color 0.2s; }
+  .btn-secondary:hover { color: var(--white); border-color: var(--white); }
+
+  footer { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 3rem; border-top: 1px solid var(--border); }
+  footer p { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; }
+
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1); }
+  .fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { grid-template-columns: 1fr; gap: 2rem; padding: 8rem 1.5rem 3rem; }
+    .section { padding: 3.5rem 1.5rem; }
+    .story-grid { grid-template-columns: 1fr; }
+    .story-sidebar { position: static; }
+    .values-grid { grid-template-columns: 1fr; }
+    .value-card:nth-child(3n) { border-right: 1px solid var(--border); }
+    .value-card { border-right: none; }
+    .stack-grid { grid-template-columns: repeat(2,1fr); }
+    .stack-item:nth-child(4n) { border-right: 1px solid var(--border); }
+    .stack-item:nth-child(2n) { border-right: none; }
+    .outside-grid { grid-template-columns: 1fr; }
+    .outside-item { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+
+<nav>
+  <a href="portfolio.html" class="nav-logo">AC.dev</a>
+  <div class="nav-links">
+    <a href="about.html" class="active">About</a>
+    <a href="projects.html">Work</a>
+    <a href="experience.html">Experience</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div>
+    <div class="page-eyebrow">About me</div>
+    <h1 class="page-title">The person<br/>behind the<br/><em>commits.</em></h1>
+  </div>
+  <p class="page-intro">
+    Full stack engineer, occasional writer, and habitual over-engineer of personal projects. I've been building for the web for over six years — from tiny side projects to infrastructure serving millions of users.<br/><br/>
+    This is a little more about who I am, how I think, and what drives the work I do.
+  </p>
+</header>
+
+<!-- STORY -->
+<section class="section">
+  <div class="section-label">The story</div>
+  <div class="story-grid">
+    <div class="story-sidebar">
+      <nav class="story-nav">
+        <a href="#origin">How it started</a>
+        <a href="#approach">How I work</a>
+        <a href="#values">What I believe</a>
+        <a href="#outside">Beyond code</a>
+      </nav>
+    </div>
+    <div class="story-body">
+      <h3 id="origin">How it started</h3>
+      <p>I wrote my first line of HTML at 13, modifying a free CSS template to make my gaming forum look "cooler." The fact that you could type words into a text file and a browser would render them as something visual felt like <em>actual magic</em> to me. It still does, honestly.</p>
+      <p>I studied Computer Science at UC Berkeley, where I became obsessed with systems programming and distributed computing. But I always found my way back to the web — it's where you can ship something real and put it in someone's hands the same day.</p>
+      <p>After graduating in 2018, I joined Notion as one of its earliest engineers. That experience — working on a product people loved, at a company growing faster than anyone could have predicted — shaped almost everything about how I think about software today.</p>
+
+      <div class="pullquote">
+        <p>"Good software doesn't shout. It just works, every time, so well that people never have to think about it."</p>
+      </div>
+
+      <h3 id="approach">How I work</h3>
+      <p>I default to <strong>boring technology</strong> where possible. Not because I'm lazy, but because the most exciting part of building products is the problem-solving, not the framework du jour. Postgres over a shiny NoSQL database. Server-rendered HTML where React isn't needed. The right tool, not the newest tool.</p>
+      <p>I believe deeply in <strong>writing things down</strong>. A short design doc before writing code has saved me weeks of work. An RFC before a big architectural decision has prevented countless misunderstandings. I write to think, and I think better when I write.</p>
+      <p>I try to work at the level above my job title. That means caring about why we're building something, not just how. It means talking to users, reading support tickets, and understanding the business context of every feature I ship.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section" style="padding-top: 0; padding-left: 0; padding-right: 0;" id="values">
+  <div style="padding: 0 3rem 2rem;"><div class="section-label">What I believe</div></div>
+  <div class="values-grid">
+    <div class="value-card fade-up">
+      <div class="value-num">01</div>
+      <div class="value-title">Craft matters</div>
+      <div class="value-desc">Details compound. The difference between good and great software is 1000 small decisions made with care. Every API shape, every error message, every loading state.</div>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-num">02</div>
+      <div class="value-title">Ship it</div>
+      <div class="value-desc">Perfect is the enemy of shipped. I'd rather have real users interacting with an 80% solution than spend three months polishing something nobody has tested in the wild.</div>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-num">03</div>
+      <div class="value-title">Own the outcome</div>
+      <div class="value-desc">I don't see myself as someone who "just writes code." I'm accountable for the thing working — the full cycle from spec to deployment to monitoring in production.</div>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-num">04</div>
+      <div class="value-title">Simplicity wins</div>
+      <div class="value-desc">Complexity is a liability. If a junior engineer can't understand the system in a day, it's too complex. I actively fight abstraction creep and over-engineering.</div>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-num">05</div>
+      <div class="value-title">Teach relentlessly</div>
+      <div class="value-desc">The best engineers I know are obsessive teachers. Writing docs, pair programming, code review comments — these compound into a better team and a better codebase.</div>
+    </div>
+    <div class="value-card fade-up">
+      <div class="value-num">06</div>
+      <div class="value-title">Stay curious</div>
+      <div class="value-desc">I read widely outside my domain. Organizational psychology, systems biology, urban planning — the best software insights often come from somewhere completely unexpected.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="section" style="padding-left: 0; padding-right: 0;">
+  <div style="padding: 0 3rem 2rem;"><div class="section-label">Daily stack</div></div>
+  <div class="stack-grid">
+    <div class="stack-item"><div class="stack-category">Editor</div><div class="stack-name">Neovim</div><div class="stack-use">Custom config. Fast. Opinionated. Still explaining it to coworkers.</div></div>
+    <div class="stack-item"><div class="stack-category">Terminal</div><div class="stack-name">Ghostty + Fish</div><div class="stack-use">Fish shell with custom prompt. Ghostty for GPU-accelerated rendering.</div></div>
+    <div class="stack-item"><div class="stack-category">Browser</div><div class="stack-name">Arc</div><div class="stack-use">Spaces for work/personal separation. Custom CSS overrides for everything.</div></div>
+    <div class="stack-item"><div class="stack-category">Notes</div><div class="stack-name">Obsidian</div><div class="stack-use">Zettelkasten method. ~2400 notes. Synced via iCloud.</div></div>
+    <div class="stack-item"><div class="stack-category">Design</div><div class="stack-name">Figma</div><div class="stack-use">For wireframes and design handoff. I design my own UIs when needed.</div></div>
+    <div class="stack-item"><div class="stack-category">DB GUI</div><div class="stack-name">TablePlus</div><div class="stack-use">Postgres, MySQL, Redis — all in one. Native macOS feel.</div></div>
+    <div class="stack-item"><div class="stack-category">API</div><div class="stack-name">Hoppscotch</div><div class="stack-use">Open source Postman alternative. Self-hosted for sensitive envs.</div></div>
+    <div class="stack-item"><div class="stack-category">Machine</div><div class="stack-name">M3 MacBook Pro</div><div class="stack-use">14-inch. 36GB RAM. Runs Docker, 4 browsers, and 12 VS Code windows fine.</div></div>
+  </div>
+</section>
+
+<!-- OUTSIDE -->
+<section class="section" style="padding-left: 0; padding-right: 0;" id="outside">
+  <div style="padding: 0 3rem 2rem;"><div class="section-label">Beyond code</div></div>
+  <div class="outside-grid">
+    <div class="outside-item">
+      <span class="outside-emoji">📚</span>
+      <div class="outside-title">Reading</div>
+      <div class="outside-desc">Currently: "A Pattern Language" by Christopher Alexander. Building a system to track every book I've read since 2015. Up to 340 entries and it's made me read more, not less.</div>
+    </div>
+    <div class="outside-item">
+      <span class="outside-emoji">🏃</span>
+      <div class="outside-title">Running</div>
+      <div class="outside-desc">Training for my third half marathon. Running is where I process architecture problems. Some of my best ideas come at mile 6 when my brain has nothing left to distract itself with.</div>
+    </div>
+    <div class="outside-item">
+      <span class="outside-emoji">🎸</span>
+      <div class="outside-title">Guitar</div>
+      <div class="outside-desc">Playing for 10 years. Mostly fingerstyle acoustic. Currently learning Chet Atkins' "Windy and Warm." It's deeply humbling to be a beginner at something.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-headline">Want to work<br/>together? <em>Let's talk.</em></h2>
+  <div class="cta-links">
+    <a href="contact.html" class="btn-primary">Get in touch ↗</a>
+    <a href="projects.html" class="btn-secondary">See my work →</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Alex Chen</p>
+  <p>San Francisco, CA · Available for remote</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; });
+  document.querySelectorAll('a, button, .value-card, .stack-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach((el,i) => { el.style.transitionDelay = (i%3)*0.1+'s'; obs.observe(el); });
+</script>
+</body>
+</html>

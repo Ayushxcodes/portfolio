@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nexus Dashboard — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#0c0c0c;--surface:#141414;--border:#222;--acid:#d4ff47;--white:#f0ede6;--muted:#6a6a6a;--serif:'DM Serif Display',serif;--sans:'Syne',sans-serif;--mono:'JetBrains Mono',monospace;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  ::selection{background:var(--acid);color:#000;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--white);font-family:var(--sans);cursor:none;overflow-x:hidden;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--acid);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.2s,height 0.2s;mix-blend-mode:difference;}
+  #cursor.hover{width:36px;height:36px;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;border-bottom:1px solid var(--border);background:rgba(12,12,12,0.92);backdrop-filter:blur(12px);}
+  .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--acid);letter-spacing:0.08em;text-decoration:none;}
+  .nav-links{display:flex;gap:2.5rem;}
+  .nav-links a{font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;font-weight:700;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-links a.active{color:var(--acid);}
+
+  /* Hero */
+  .case-hero{padding:10rem 3rem 5rem;border-bottom:1px solid var(--border);}
+  .breadcrumb{font-family:var(--mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:2rem;display:flex;align-items:center;gap:0.75rem;}
+  .breadcrumb a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .breadcrumb a:hover{color:var(--acid);}
+  .case-meta{display:flex;gap:3rem;margin-bottom:2rem;flex-wrap:wrap;}
+  .meta-item{display:flex;flex-direction:column;gap:0.3rem;}
+  .meta-label{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;}
+  .meta-value{font-family:var(--mono);font-size:0.82rem;color:var(--white);letter-spacing:0.05em;}
+  .meta-value.acid{color:var(--acid);}
+  .case-title{font-family:var(--serif);font-size:clamp(3rem,7vw,7rem);line-height:0.92;letter-spacing:-0.02em;margin-bottom:1.5rem;}
+  .case-subtitle{font-family:var(--mono);font-size:0.9rem;color:var(--muted);max-width:600px;line-height:1.9;}
+
+  /* Stats strip */
+  .stats-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);}
+  .stat-box{padding:3rem 2.5rem;border-right:1px solid var(--border);text-align:center;}
+  .stat-box:last-child{border-right:none;}
+  .stat-big{font-family:var(--serif);font-size:clamp(2.5rem,4vw,4rem);color:var(--acid);line-height:1;}
+  .stat-small{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.5rem;}
+
+  /* Two-col layout */
+  .case-layout{display:grid;grid-template-columns:260px 1fr;gap:5rem;padding:5rem 3rem;border-bottom:1px solid var(--border);}
+  .case-toc{position:sticky;top:7rem;height:fit-content;}
+  .toc-label{font-family:var(--mono);font-size:0.62rem;color:var(--acid);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.25rem;}
+  .toc-list{display:flex;flex-direction:column;gap:0;}
+  .toc-list a{font-family:var(--mono);font-size:0.72rem;color:var(--muted);text-decoration:none;padding:0.75rem 0;border-bottom:1px solid var(--border);letter-spacing:0.05em;transition:color 0.2s,padding-left 0.2s;}
+  .toc-list a:hover{color:var(--acid);padding-left:0.5rem;}
+
+  /* Article body */
+  .case-body section{margin-bottom:4rem;}
+  .section-tag{font-family:var(--mono);font-size:0.65rem;color:var(--acid);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;}
+  .section-tag::after{content:'';width:40px;height:1px;background:var(--border);}
+  .case-body h2{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.1;margin-bottom:1rem;}
+  .case-body p{font-size:1rem;color:#bbb;line-height:1.95;margin-bottom:1.25rem;}
+  .case-body p strong{color:var(--white);}
+  .case-body p em{font-style:italic;color:var(--acid);}
+
+  .callout{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--acid);padding:1.5rem 2rem;margin:2rem 0;}
+  .callout p{margin:0;font-family:var(--mono);font-size:0.8rem;line-height:1.9;color:#ccc;}
+  .callout p strong{color:var(--acid);}
+
+  .code-block{background:var(--surface);border:1px solid var(--border);padding:1.5rem 2rem;margin:2rem 0;overflow-x:auto;}
+  .code-block pre{font-family:var(--mono);font-size:0.78rem;color:#ccc;line-height:1.8;}
+  .code-block .kw{color:#d4ff47;}
+  .code-block .str{color:#88c0d0;}
+  .code-block .cmt{color:#555;}
+  .code-block .fn{color:#81a1c1;}
+
+  /* Architecture diagram */
+  .arch-diagram{background:var(--surface);border:1px solid var(--border);padding:2.5rem;margin:2rem 0;}
+  .arch-title{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem;}
+  .arch-flow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;}
+  .arch-node{background:#0c0c0c;border:1px solid var(--border);padding:1rem 1.5rem;text-align:center;min-width:130px;}
+  .arch-node.highlight{border-color:var(--acid);}
+  .arch-node-name{font-family:var(--mono);font-size:0.72rem;color:var(--white);letter-spacing:0.05em;}
+  .arch-node-tech{font-family:var(--mono);font-size:0.6rem;color:var(--muted);margin-top:0.3rem;letter-spacing:0.08em;}
+  .arch-arrow{font-family:var(--mono);color:var(--muted);font-size:1.2rem;padding:0 0.5rem;}
+
+  /* Challenges grid */
+  .challenges-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0;}
+  .challenge-card{background:var(--surface);border:1px solid var(--border);padding:1.75rem;}
+  .challenge-card.before{border-top:2px solid #e05252;}
+  .challenge-card.after{border-top:2px solid var(--acid);}
+  .challenge-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;}
+  .challenge-card.before .challenge-label{color:#e05252;}
+  .challenge-card.after .challenge-label{color:var(--acid);}
+  .challenge-title{font-weight:700;font-size:0.95rem;margin-bottom:0.5rem;}
+  .challenge-desc{font-family:var(--mono);font-size:0.72rem;color:var(--muted);line-height:1.85;}
+
+  /* Learnings */
+  .learning-list{display:flex;flex-direction:column;gap:0;}
+  .learning-item{display:grid;grid-template-columns:60px 1fr;gap:2rem;padding:2rem 0;border-bottom:1px solid var(--border);}
+  .learning-num{font-family:var(--mono);font-size:0.65rem;color:var(--acid);letter-spacing:0.12em;padding-top:0.25rem;}
+  .learning-text h4{font-weight:700;font-size:1rem;margin-bottom:0.4rem;}
+  .learning-text p{font-family:var(--mono);font-size:0.75rem;color:var(--muted);line-height:1.9;margin:0;}
+
+  /* Next project */
+  .next-project{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);}
+  .next-side{padding:4rem 3rem;display:flex;flex-direction:column;justify-content:space-between;}
+  .next-side:first-child{border-right:1px solid var(--border);}
+  .next-label{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .next-title{font-family:var(--serif);font-size:2rem;margin-bottom:2rem;}
+  .next-link{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--acid);letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:gap 0.2s;}
+  .next-link:hover{gap:1rem;}
+
+  footer{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;border-top:1px solid var(--border);}
+  footer p{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;}
+
+  .fade-up{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(0.23,1,0.32,1),transform 0.7s cubic-bezier(0.23,1,0.32,1);}
+  .fade-up.in-view{opacity:1;transform:translateY(0);}
+
+  @media(max-width:900px){
+    nav{padding:1.25rem 1.5rem;}
+    .nav-links{display:none;}
+    .case-hero{padding:8rem 1.5rem 3rem;}
+    .stats-strip{grid-template-columns:repeat(2,1fr);}
+    .stat-box:nth-child(2){border-right:none;}
+    .stat-box:nth-child(3){border-right:1px solid var(--border);}
+    .case-layout{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem;}
+    .case-toc{display:none;}
+    .challenges-grid{grid-template-columns:1fr;}
+    .next-project{grid-template-columns:1fr;}
+    .next-side:first-child{border-right:none;border-bottom:1px solid var(--border);}
+    footer{flex-direction:column;gap:0.5rem;}
+  }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+
+<nav>
+  <a href="portfolio.html" class="nav-logo">AC.dev</a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="projects.html" class="active">Work</a>
+    <a href="experience.html">Experience</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="case-hero">
+  <div class="breadcrumb">
+    <a href="projects.html">Work</a> <span>/</span> Nexus Dashboard
+  </div>
+  <div class="case-meta">
+    <div class="meta-item"><span class="meta-label">Year</span><span class="meta-value">2024</span></div>
+    <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">Lead Engineer</span></div>
+    <div class="meta-item"><span class="meta-label">Team</span><span class="meta-value">3 engineers</span></div>
+    <div class="meta-item"><span class="meta-label">Status</span><span class="meta-value acid">Live in production</span></div>
+  </div>
+  <h1 class="case-title">Nexus Analytics<br/>Dashboard</h1>
+  <p class="case-subtitle">How we built a real-time analytics platform processing 2M+ events/day for a Series B fintech startup — in 4 months, with a team of three.</p>
+</header>
+
+<!-- Stats -->
+<div class="stats-strip">
+  <div class="stat-box"><div class="stat-big">2M+</div><div class="stat-small">Events per day</div></div>
+  <div class="stat-box"><div class="stat-big">98ms</div><div class="stat-small">P99 query latency</div></div>
+  <div class="stat-box"><div class="stat-big">40%</div><div class="stat-small">Cost reduction</div></div>
+  <div class="stat-box"><div class="stat-big">4mo</div><div class="stat-small">Build time</div></div>
+</div>
+
+<!-- Body -->
+<div class="case-layout">
+  <aside class="case-toc">
+    <div class="toc-label">Contents</div>
+    <nav class="toc-list">
+      <a href="#overview">Overview</a>
+      <a href="#problem">The problem</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#challenges">Key challenges</a>
+      <a href="#outcome">Outcome</a>
+      <a href="#learnings">What I learned</a>
+    </nav>
+  </aside>
+
+  <article class="case-body">
+
+    <section id="overview" class="fade-up">
+      <div class="section-tag">Overview</div>
+      <h2>The brief</h2>
+      <p>Meridian Financial (name changed) had a problem: their data team was spending 3–4 hours each morning running Python scripts to generate the previous day's performance reports. Business stakeholders couldn't get answers to simple questions without filing a data request and waiting 48 hours.</p>
+      <p>They needed a <strong>self-service analytics platform</strong> that their operations team could use without SQL knowledge — with data fresh enough to make same-day decisions on.</p>
+      <div class="callout"><p><strong>Constraint:</strong> The previous analytics vendor cost $120k/year and still couldn't deliver sub-minute data freshness. Our target was real-time (under 5 seconds) with a total infrastructure cost under $3k/month.</p></div>
+    </section>
+
+    <section id="problem" class="fade-up">
+      <div class="section-tag">The problem</div>
+      <h2>Why existing solutions failed</h2>
+      <p>We audited four existing analytics platforms. Each failed in at least one critical dimension: either they couldn't handle the event volume, the query latency was too high for real-time use, the cost was prohibitive at scale, or the embedding options were too limited for white-labeling into Meridian's own product.</p>
+      <p>The core technical challenge was <em>the write/read ratio</em>. They needed to ingest bursts of 50,000 events per minute during market hours while still serving sub-100ms analytical queries to 200+ concurrent dashboard users. These requirements are fundamentally in tension.</p>
+    </section>
+
+    <section id="architecture" class="fade-up">
+      <div class="section-tag">Architecture</div>
+      <h2>How we built it</h2>
+      <p>The solution centered on a purpose-built stack designed around each layer's strength. Rather than forcing one database to do everything, we separated concerns aggressively.</p>
+
+      <div class="arch-diagram">
+        <div class="arch-title">Data flow — simplified</div>
+        <div class="arch-flow">
+          <div class="arch-node"><div class="arch-node-name">Client Events</div><div class="arch-node-tech">SDKs / Webhook</div></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node highlight"><div class="arch-node-name">Kafka</div><div class="arch-node-tech">Event stream</div></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node highlight"><div class="arch-node-name">ClickHouse</div><div class="arch-node-tech">OLAP store</div></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node"><div class="arch-node-name">Query API</div><div class="arch-node-tech">Node / Redis</div></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node"><div class="arch-node-name">Dashboard</div><div class="arch-node-tech">Next.js / WS</div></div>
+        </div>
+      </div>
+
+      <p>We chose <strong>ClickHouse</strong> as the analytical store after benchmarking it against Redshift, BigQuery, and DuckDB. On our workload, ClickHouse returned aggregations over 500M rows in under 80ms — roughly 12× faster than Redshift at a third of the cost.</p>
+      <p>For real-time delivery to the frontend, we used WebSockets with a Redis pub/sub fanout layer. Instead of polling, the dashboard subscribes to metric channels; updates are pushed as they arrive from the ingestion pipeline.</p>
+
+      <div class="code-block">
+        <pre><span class="cmt">// Simplified metric subscription handler</span>
+<span class="kw">const</span> <span class="fn">subscribeToMetric</span> = <span class="kw">async</span> (metricId: <span class="str">string</span>, ws: WebSocket) => {
+  <span class="kw">const</span> sub = redis.duplicate();
+  <span class="kw">await</span> sub.<span class="fn">subscribe</span>(<span class="str">`metric:${metricId}`</span>);
+
+  sub.<span class="fn">on</span>(<span class="str">'message'</span>, (_, data) => {
+    <span class="kw">if</span> (ws.readyState === WebSocket.OPEN) {
+      ws.<span class="fn">send</span>(data);
+    }
+  });
+
+  ws.<span class="fn">on</span>(<span class="str">'close'</span>, () => sub.<span class="fn">unsubscribe</span>());
+};</pre>
+      </div>
+    </section>
+
+    <section id="challenges" class="fade-up">
+      <div class="section-tag">Key challenges</div>
+      <h2>The hard parts</h2>
+      <div class="challenges-grid">
+        <div class="challenge-card before">
+          <div class="challenge-label">Problem</div>
+          <div class="challenge-title">Query fanout under load</div>
+          <div class="challenge-desc">200+ concurrent users all refreshing dashboards at once created a thundering herd that saturated ClickHouse connections during market open.</div>
+        </div>
+        <div class="challenge-card after">
+          <div class="challenge-label">Solution</div>
+          <div class="challenge-title">Shared query deduplication</div>
+          <div class="challenge-desc">Built a query coalescing layer in Redis: identical queries within a 1-second window are merged into a single ClickHouse request. Reduced query load by 70%.</div>
+        </div>
+        <div class="challenge-card before">
+          <div class="challenge-label">Problem</div>
+          <div class="challenge-title">Schema evolution</div>
+          <div class="challenge-desc">Event schemas changed frequently as Meridian added new products. Each change threatened to break ingestion pipelines and historical queries.</div>
+        </div>
+        <div class="challenge-card after">
+          <div class="challenge-label">Solution</div>
+          <div class="challenge-title">Schema registry + Avro</div>
+          <div class="challenge-desc">Introduced a Confluent Schema Registry. Events are validated against versioned Avro schemas on ingestion. Old and new schema versions coexist gracefully.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="outcome" class="fade-up">
+      <div class="section-tag">Outcome</div>
+      <h2>The results</h2>
+      <p>We shipped the MVP in week 14 and reached full feature parity with the previous vendor by week 16. The platform has been running in production for 8 months with <strong>99.97% uptime</strong>.</p>
+      <p>Beyond the headline numbers, the biggest win was qualitative: the ops team went from filing data requests to self-serving answers in under 30 seconds. The data team reclaimed roughly <em>15 hours per week</em> that had been spent on manual reporting.</p>
+      <p>The platform has since been extended to support 3 new product lines that weren't in the original scope, with no architectural changes required — a good sign that the foundation held.</p>
+    </section>
+
+    <section id="learnings" class="fade-up">
+      <div class="section-tag">What I learned</div>
+      <h2>Key takeaways</h2>
+      <div class="learning-list">
+        <div class="learning-item">
+          <div class="learning-num">01</div>
+          <div class="learning-text">
+            <h4>Choose your database for the read pattern, not the write pattern</h4>
+            <p>We almost chose Postgres with TimescaleDB because it was familiar. ClickHouse's columnar storage turned out to be the single biggest performance lever in the entire system.</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-num">02</div>
+          <div class="learning-text">
+            <h4>Build observability before you build features</h4>
+            <p>We instrumented the entire pipeline with Prometheus and Grafana dashboards in week 1. This paid dividends in debugging the thundering herd issue — we could see exactly what was happening in production.</p>
+          </div>
+        </div>
+        <div class="learning-item">
+          <div class="learning-num">03</div>
+          <div class="learning-text">
+            <h4>WebSockets need more thought than most tutorials suggest</h4>
+            <p>Reconnection logic, backpressure, message ordering guarantees — the production WebSocket implementation was 5× more complex than the prototype. Plan for it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+</div>
+
+<!-- Next project -->
+<div class="next-project">
+  <div class="next-side">
+    <div class="next-label">← Previous</div>
+    <div class="next-title">StoreFront Engine</div>
+    <a href="project-detail.html" class="next-link">View project →</a>
+  </div>
+  <div class="next-side">
+    <div class="next-label">Next →</div>
+    <div class="next-title">Orchid CMS</div>
+    <a href="project-detail.html" class="next-link">View project →</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Alex Chen</p>
+  <p>San Francisco, CA · Available for remote</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => { cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // TOC active state
+  const sections = document.querySelectorAll('.case-body section[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if(window.scrollY >= s.offsetTop - 200) current = s.id; });
+    tocLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#'+current ? 'var(--acid)' : ''; });
+  });
+</script>
+</body>
+</html>

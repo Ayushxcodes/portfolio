@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Work — Alex Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#0c0c0c;--surface:#141414;--border:#222;
+    --acid:#d4ff47;--white:#f0ede6;--muted:#6a6a6a;
+    --serif:'DM Serif Display',serif;--sans:'Syne',sans-serif;--mono:'JetBrains Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  ::selection{background:var(--acid);color:#000;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--white);font-family:var(--sans);cursor:none;overflow-x:hidden;}
+  #cursor{position:fixed;width:12px;height:12px;background:var(--acid);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.2s,height 0.2s;mix-blend-mode:difference;}
+  #cursor.hover{width:36px;height:36px;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;border-bottom:1px solid var(--border);background:rgba(12,12,12,0.92);backdrop-filter:blur(12px);}
+  .nav-logo{font-family:var(--mono);font-size:0.85rem;color:var(--acid);letter-spacing:0.08em;text-decoration:none;}
+  .nav-links{display:flex;gap:2.5rem;}
+  .nav-links a{font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;font-weight:700;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-links a.active{color:var(--acid);}
+
+  .page-header{padding:10rem 3rem 4rem;border-bottom:1px solid var(--border);}
+  .page-eyebrow{font-family:var(--mono);font-size:0.7rem;color:var(--acid);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;}
+  .page-title{font-family:var(--serif);font-size:clamp(3.5rem,8vw,7rem);line-height:0.92;letter-spacing:-0.02em;margin-bottom:2rem;}
+  .page-title em{font-style:italic;color:var(--muted);}
+  .page-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+  .page-count{font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;}
+
+  /* Filter bar */
+  .filter-bar{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;}
+  .filter-btn{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-right:1px solid var(--border);padding:1.1rem 1.75rem;cursor:none;transition:color 0.2s,background 0.2s;white-space:nowrap;}
+  .filter-btn:hover{color:var(--white);background:var(--surface);}
+  .filter-btn.active{color:#000;background:var(--acid);}
+
+  /* Featured project */
+  .featured{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);min-height:500px;}
+  .featured-visual{background:var(--surface);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;border-right:1px solid var(--border);}
+  .featured-num{position:absolute;top:2rem;left:2rem;font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;}
+  .featured-badge{position:absolute;top:2rem;right:2rem;font-family:var(--mono);font-size:0.65rem;color:#000;background:var(--acid);padding:0.3rem 0.7rem;letter-spacing:0.1em;}
+  .featured-mockup{width:70%;aspect-ratio:16/10;background:#1a1a1a;border:1px solid var(--border);position:relative;display:flex;flex-direction:column;overflow:hidden;}
+  .mock-bar{height:32px;background:#111;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;padding:0 12px;}
+  .mock-dot{width:8px;height:8px;border-radius:50%;}
+  .mock-content{flex:1;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .mock-card{background:var(--border);border-radius:2px;}
+  .mock-card.tall{grid-row:span 2;}
+  .mock-line{height:6px;background:#333;border-radius:1px;margin-bottom:6px;}
+  .mock-line.short{width:60%;}
+  .mock-line.acid{background:var(--acid);width:40%;}
+
+  .featured-info{padding:3.5rem;display:flex;flex-direction:column;justify-content:center;}
+  .featured-cat{font-family:var(--mono);font-size:0.65rem;color:var(--acid);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1.25rem;}
+  .featured-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;margin-bottom:1rem;}
+  .featured-desc{font-family:var(--mono);font-size:0.8rem;color:var(--muted);line-height:1.95;margin-bottom:2rem;}
+  .featured-stats{display:flex;gap:2.5rem;margin-bottom:2.5rem;padding: 1.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .feat-stat-num{font-family:var(--serif);font-size:2rem;color:var(--acid);}
+  .feat-stat-label{font-family:var(--mono);font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+  .feat-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:2rem;}
+  .tag{font-family:var(--mono);font-size:0.65rem;border:1px solid var(--border);color:var(--muted);padding:0.25rem 0.6rem;letter-spacing:0.08em;}
+  .btn-project{display:inline-flex;align-items:center;gap:0.5rem;background:var(--acid);color:#000;font-family:var(--sans);font-weight:700;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.9rem 1.75rem;text-decoration:none;transition:background 0.2s,transform 0.2s;width:fit-content;}
+  .btn-project:hover{background:#fff;transform:translate(-3px,-3px);}
+
+  /* Projects grid */
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border);}
+  .project-card{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:0;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:background 0.2s;}
+  .project-card:nth-child(3n){border-right:none;}
+  .project-card:hover{background:var(--surface);}
+  .project-card:hover .project-arrow{opacity:1;transform:translate(0,0);}
+  .project-card:hover .card-img{transform:scale(1.03);}
+  .card-visual{height:200px;background:var(--surface);overflow:hidden;position:relative;border-bottom:1px solid var(--border);}
+  .card-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform 0.5s cubic-bezier(0.23,1,0.32,1);}
+  .card-pattern{width:100%;height:100%;opacity:0.4;}
+  .card-body{padding:1.75rem;}
+  .card-cat{font-family:var(--mono);font-size:0.62rem;color:var(--acid);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.75rem;}
+  .card-title{font-family:var(--serif);font-size:1.6rem;line-height:1.1;margin-bottom:0.6rem;}
+  .card-desc{font-family:var(--mono);font-size:0.72rem;color:var(--muted);line-height:1.85;margin-bottom:1.25rem;}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;}
+  .card-tags{display:flex;gap:0.35rem;flex-wrap:wrap;}
+  .card-tag{font-family:var(--mono);font-size:0.62rem;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);padding:0.2rem 0.55rem;letter-spacing:0.06em;}
+  .project-arrow{font-size:1.2rem;color:var(--acid);opacity:0;transform:translate(-6px,6px);transition:opacity 0.25s,transform 0.25s;}
+
+  /* Open source strip */
+  .oss-strip{padding:5rem 3rem;border-bottom:1px solid var(--border);}
+  .oss-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;}
+  .oss-headline{font-family:var(--serif);font-size:2.5rem;}
+  .oss-sub{font-family:var(--mono);font-size:0.75rem;color:var(--muted);}
+  .oss-list{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+  .oss-item{padding:1.75rem;border-right:1px solid var(--border);border-top:1px solid var(--border);}
+  .oss-item:last-child{border-right:none;}
+  .oss-name{font-weight:700;font-size:0.95rem;margin-bottom:0.35rem;color:var(--acid);}
+  .oss-desc{font-family:var(--mono);font-size:0.7rem;color:var(--muted);line-height:1.8;margin-bottom:0.75rem;}
+  .oss-meta{display:flex;gap:1.5rem;}
+  .oss-stat{font-family:var(--mono);font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;}
+  .oss-stat span{color:var(--white);}
+
+  footer{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;border-top:1px solid var(--border);}
+  footer p{font-family:var(--mono);font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;}
+
+  .fade-up{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(0.23,1,0.32,1),transform 0.7s cubic-bezier(0.23,1,0.32,1);}
+  .fade-up.in-view{opacity:1;transform:translateY(0);}
+
+  @media(max-width:900px){
+    nav{padding:1.25rem 1.5rem;}
+    .nav-links{display:none;}
+    .page-header{padding:8rem 1.5rem 3rem;}
+    .featured{grid-template-columns:1fr;}
+    .featured-visual{min-height:260px;}
+    .featured-info{padding:2rem 1.5rem;}
+    .projects-grid{grid-template-columns:1fr;}
+    .project-card:nth-child(3n){border-right:1px solid var(--border);}
+    .project-card{border-right:none;}
+    .oss-list{grid-template-columns:1fr;}
+    .oss-item{border-right:none;}
+    .oss-strip{padding:3rem 1.5rem;}
+    footer{flex-direction:column;gap:0.5rem;}
+  }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+
+<nav>
+  <a href="portfolio.html" class="nav-logo">AC.dev</a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="projects.html" class="active">Work</a>
+    <a href="experience.html">Experience</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-eyebrow">Selected work</div>
+  <h1 class="page-title">Projects &<br/><em>case studies.</em></h1>
+  <div class="page-meta">
+    <span class="page-count">Showing 8 projects — 2019 to present</span>
+  </div>
+</header>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <button class="filter-btn active">All</button>
+  <button class="filter-btn">Full Stack</button>
+  <button class="filter-btn">Frontend</button>
+  <button class="filter-btn">Backend / API</button>
+  <button class="filter-btn">Open Source</button>
+  <button class="filter-btn">Mobile</button>
+</div>
+
+<!-- Featured -->
+<div class="featured">
+  <div class="featured-visual">
+    <div class="featured-num">Featured</div>
+    <div class="featured-badge">Case study</div>
+    <div class="featured-mockup">
+      <div class="mock-bar">
+        <div class="mock-dot" style="background:#ff5f57;"></div>
+        <div class="mock-dot" style="background:#febc2e;"></div>
+        <div class="mock-dot" style="background:#28c840;"></div>
+      </div>
+      <div class="mock-content">
+        <div class="mock-card tall"><div style="padding:10px;"><div class="mock-line acid"></div><div class="mock-line"></div><div class="mock-line short"></div></div></div>
+        <div class="mock-card"><div style="padding:8px;"><div class="mock-line short"></div></div></div>
+        <div class="mock-card"><div style="padding:8px;"><div class="mock-line acid short"></div></div></div>
+        <div class="mock-card" style="grid-column:span 2;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="featured-info">
+    <div class="featured-cat">Full Stack · 2024</div>
+    <h2 class="featured-title">Nexus Analytics Dashboard</h2>
+    <p class="featured-desc">A real-time analytics platform processing over 2 million events per day for a Series B fintech startup. Built from scratch in 4 months with a team of 3. Reduced infrastructure costs by 40% vs. previous vendor.</p>
+    <div class="featured-stats">
+      <div><div class="feat-stat-num">2M+</div><div class="feat-stat-label">Events/day</div></div>
+      <div><div class="feat-stat-num">98ms</div><div class="feat-stat-label">P99 latency</div></div>
+      <div><div class="feat-stat-num">40%</div><div class="feat-stat-label">Cost reduction</div></div>
+    </div>
+    <div class="feat-tags">
+      <span class="tag">Next.js</span><span class="tag">ClickHouse</span><span class="tag">WebSockets</span><span class="tag">AWS ECS</span><span class="tag">Terraform</span>
+    </div>
+    <a href="project-detail.html" class="btn-project">Read case study ↗</a>
+  </div>
+</div>
+
+<!-- Grid -->
+<div class="projects-grid">
+
+  <a href="project-detail.html" class="project-card fade-up">
+    <div class="card-visual">
+      <div class="card-img">
+        <svg viewBox="0 0 300 200" class="card-pattern" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#141414"/>
+          <line x1="0" y1="50" x2="300" y2="50" stroke="#222" stroke-width="1"/>
+          <line x1="0" y1="100" x2="300" y2="100" stroke="#222" stroke-width="1"/>
+          <line x1="0" y1="150" x2="300" y2="150" stroke="#222" stroke-width="1"/>
+          <line x1="75" y1="0" x2="75" y2="200" stroke="#222" stroke-width="1"/>
+          <line x1="150" y1="0" x2="150" y2="200" stroke="#222" stroke-width="1"/>
+          <line x1="225" y1="0" x2="225" y2="200" stroke="#222" stroke-width="1"/>
+          <rect x="20" y="120" width="40" height="60" fill="#d4ff47" opacity="0.7"/>
+          <rect x="95" y="80" width="40" height="100" fill="#d4ff47" opacity="0.5"/>
+          <rect x="170" y="60" width="40" height="120" fill="#d4ff47" opacity="0.8"/>
+          <rect x="245" y="100" width="40" height="80" fill="#d4ff47" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-cat">CMS · 2024</div>
+      <div class="card-title">Orchid CMS</div>
+      <div class="card-desc">Headless content management system with visual page builder and multi-tenant architecture. 10M+ documents indexed.</div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="card-tag">React</span><span class="card-tag">Node</span><span class="card-tag">Elastic</span></div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="project-detail.html" class="project-card fade-up">
+    <div class="card-visual">
+      <div class="card-img">
+        <svg viewBox="0 0 300 200" class="card-pattern" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#141414"/>
+          <circle cx="150" cy="100" r="80" fill="none" stroke="#222" stroke-width="1"/>
+          <circle cx="150" cy="100" r="55" fill="none" stroke="#333" stroke-width="1"/>
+          <circle cx="150" cy="100" r="30" fill="none" stroke="#d4ff47" stroke-width="1" opacity="0.6"/>
+          <circle cx="150" cy="100" r="8" fill="#d4ff47" opacity="0.9"/>
+          <line x1="150" y1="20" x2="150" y2="180" stroke="#222" stroke-width="0.5"/>
+          <line x1="70" y1="100" x2="230" y2="100" stroke="#222" stroke-width="0.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-cat">Infrastructure · 2023</div>
+      <div class="card-title">Flux API Gateway</div>
+      <div class="card-desc">Open-source API gateway with rate limiting, auth middleware, and request transformation. 1.2k GitHub stars.</div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="card-tag">Go</span><span class="card-tag">Redis</span><span class="card-tag">Docker</span></div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="project-detail.html" class="project-card fade-up">
+    <div class="card-visual">
+      <div class="card-img">
+        <svg viewBox="0 0 300 200" class="card-pattern" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#141414"/>
+          <rect x="20" y="20" width="260" height="160" rx="4" fill="#1a1a1a" stroke="#222"/>
+          <rect x="30" y="30" width="240" height="28" rx="2" fill="#111" stroke="#333"/>
+          <rect x="40" y="68" width="100" height="8" rx="1" fill="#333"/>
+          <rect x="40" y="82" width="160" height="6" rx="1" fill="#222"/>
+          <rect x="40" y="94" width="130" height="6" rx="1" fill="#222"/>
+          <rect x="40" y="120" width="80" height="28" rx="2" fill="#d4ff47" opacity="0.85"/>
+          <rect x="130" y="120" width="70" height="28" rx="2" fill="#1e1e1e" stroke="#333"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-cat">Mobile · 2023</div>
+      <div class="card-title">Verse — Social Reading</div>
+      <div class="card-desc">Mobile-first app for social book annotation. 40k active users. Product Hunt #2 of the day at launch.</div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="card-tag">React Native</span><span class="card-tag">GraphQL</span></div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="project-detail.html" class="project-card fade-up">
+    <div class="card-visual">
+      <div class="card-img">
+        <svg viewBox="0 0 300 200" class="card-pattern" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#141414"/>
+          <polyline points="20,150 60,110 100,130 140,70 180,90 220,40 260,60 290,50" fill="none" stroke="#d4ff47" stroke-width="2" opacity="0.8"/>
+          <polyline points="20,170 60,155 100,160 140,140 180,145 220,120 260,130 290,125" fill="none" stroke="#555" stroke-width="1.5" opacity="0.6"/>
+          <circle cx="220" cy="40" r="4" fill="#d4ff47"/>
+          <line x1="0" y1="50" x2="300" y2="50" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="100" x2="300" y2="100" stroke="#1e1e1e" stroke-width="1"/>
+          <line x1="0" y1="150" x2="300" y2="150" stroke="#1e1e1e" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-cat">FinTech · 2022</div>
+      <div class="card-title">TradeView Pro</div>
+      <div class="card-desc">Real-time trading dashboard with WebSocket price feeds, portfolio analytics, and risk visualization for retail investors.</div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="card-tag">React</span><span class="card-tag">WebSockets</span><span class="card-tag">D3</span></div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="project-detail.html" class="project-card fade-up">
+    <div class="card-visual">
+      <div class="card-img">
+        <svg viewBox="0 0 300 200" class="card-pattern" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#141414"/>
+          <rect x="20" y="30" width="120" height="70" rx="3" fill="#1a1a1a" stroke="#333"/>
+          <rect x="160" y="30" width="120" height="70" rx="3" fill="#1a1a1a" stroke="#333"/>
+          <rect x="20" y="120" width="120" height="50" rx="3" fill="#1a1a1a" stroke="#d4ff47" stroke-width="1.5" opacity="0.7"/>
+          <rect x="160" y="120" width="120" height="50" rx="3" fill="#1a1a1a" stroke="#333"/>
+          <line x1="140" y1="65" x2="160" y2="65" stroke="#d4ff47" stroke-width="1" opacity="0.6"/>
+          <line x1="150" y1="100" x2="150" y2="120" stroke="#333"/>
+          <circle cx="80" cy="65" r="12" fill="#222" stroke="#d4ff47" stroke-width="1" opacity="0.6"/>
+          <circle cx="220" cy="65" r="12" fill="#222" stroke="#333"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-cat">SaaS · 2022</div>
+      <div class="card-title">Relay — Team Inbox</div>
+      <div class="card-desc">Shared inbox and CRM for small support teams. Built-in automation rules, SLA tracking, and Slack integration.</div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="card-tag">Next.js</span><span class="card-tag">Postgres</span><span class="card-tag">Redis</span></div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a href="project-detail.html" class="project-card fade-up">
+    <div class="card-visual">
+      <div class="card-img">
+        <svg viewBox="0 0 300 200" class="card-pattern" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="200" fill="#141414"/>
+          <rect x="20" y="20" width="80" height="40" rx="2" fill="#1e1e1e" stroke="#333"/>
+          <rect x="110" y="20" width="80" height="40" rx="2" fill="#1e1e1e" stroke="#333"/>
+          <rect x="200" y="20" width="80" height="40" rx="2" fill="#1e1e1e" stroke="#333"/>
+          <rect x="40" y="80" width="220" height="90" rx="3" fill="#1a1a1a" stroke="#222"/>
+          <rect x="55" y="95" width="60" height="6" rx="1" fill="#333"/>
+          <rect x="55" y="108" width="100" height="5" rx="1" fill="#222"/>
+          <rect x="55" y="120" width="80" height="5" rx="1" fill="#222"/>
+          <rect x="55" y="140" width="50" height="20" rx="1" fill="#d4ff47" opacity="0.7"/>
+          <rect x="115" y="140" width="50" height="20" rx="1" fill="#222" stroke="#333"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-cat">E-Commerce · 2021</div>
+      <div class="card-title">StoreFront Engine</div>
+      <div class="card-desc">Headless e-commerce framework with composable checkout, multi-currency support, and edge-cached product pages.</div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="card-tag">Next.js</span><span class="card-tag">Stripe</span><span class="card-tag">Cloudflare</span></div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<!-- Open Source -->
+<div class="oss-strip">
+  <div class="oss-header">
+    <h2 class="oss-headline">Open source</h2>
+    <a href="#" style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);text-decoration:none;letter-spacing:0.08em;">View all on GitHub →</a>
+  </div>
+  <div class="oss-list">
+    <div class="oss-item">
+      <div class="oss-name">flux-gateway</div>
+      <div class="oss-desc">Programmable API gateway with Lua scripting support, JWT auth, rate limiting, and plugin ecosystem.</div>
+      <div class="oss-meta">
+        <span class="oss-stat">⭐ <span>1.2k</span></span>
+        <span class="oss-stat">Forks <span>183</span></span>
+        <span class="oss-stat">Go</span>
+      </div>
+    </div>
+    <div class="oss-item">
+      <div class="oss-name">ts-result</div>
+      <div class="oss-desc">Rust-inspired Result and Option types for TypeScript with zero dependencies and full type inference.</div>
+      <div class="oss-meta">
+        <span class="oss-stat">⭐ <span>430</span></span>
+        <span class="oss-stat">Forks <span>52</span></span>
+        <span class="oss-stat">TypeScript</span>
+      </div>
+    </div>
+    <div class="oss-item">
+      <div class="oss-name">pg-migrate-cli</div>
+      <div class="oss-desc">Zero-config PostgreSQL migration tool with rollback, dry-run mode, and CI/CD integrations out of the box.</div>
+      <div class="oss-meta">
+        <span class="oss-stat">⭐ <span>280</span></span>
+        <span class="oss-stat">Forks <span>41</span></span>
+        <span class="oss-stat">Node.js</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Alex Chen</p>
+  <p>San Francisco, CA · Available for remote</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => { cursor.style.left = e.clientX+'px'; cursor.style.top = e.clientY+'px'; });
+  document.querySelectorAll('a,button,.project-card,.oss-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach((el,i) => { el.style.transitionDelay = (i%3)*0.1+'s'; obs.observe(el); });
+</script>
+</body>
+</html>
