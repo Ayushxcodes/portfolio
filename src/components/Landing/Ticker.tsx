@@ -5,7 +5,7 @@ export default function Ticker({ items }: { items: { label: string; highlight: b
         {[...items, ...items].map((item, i) => (
           <span key={i} className="flex items-center">
             <span
-              className={`font-mono text-[0.75rem] tracking-[0.12em] uppercase px-10 whitespace-nowrap
+              className={`font-mono text-[0.75rem] tracking-[0.12em] uppercase px-4 md:px-10 whitespace-nowrap
                 ${item.highlight ? 'text-[#d4ff47]' : 'text-[#6a6a6a]'}`}
             >
               {item.label}

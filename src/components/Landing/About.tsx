@@ -1,9 +1,9 @@
 export default function About() {
   return (
-    <section className="px-12 py-28 border-b border-[#222]" id="about">
+    <section className="px-4 md:px-12 py-28 border-b border-[#222]" id="about">
       <div className="section-label-el font-mono text-[0.7rem] text-[#d4ff47] tracking-[0.2em] uppercase mb-12 flex items-center gap-4">01 — About</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
-        <h2 className="fade-up font-serif leading-[1.05] tracking-[-0.02em] text-[clamp(2.5rem,5vw,4.5rem)]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
+        <h2 className="fade-up font-serif leading-[1.05] tracking-[-0.02em] text-[clamp(2rem,5vw,4.5rem)]">
           I build things<br />for the<br />
           <em className="italic text-[#6a6a6a]">open web.</em>
         </h2>
