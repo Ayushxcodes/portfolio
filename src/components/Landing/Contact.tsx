@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const CONTACT_LINKS: { label: string; href: string; target?: string }[] = [
-  { label: 'GitHub', href: 'https://github.com/Ayushxcodes' },
+  { label: 'GitHub', href: '' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ayush-pandey-654486291' },
   { label: 'Twitter / X', href: 'https://x.com/crimsonking989' },
   { label: 'Resume ↓', href: '#' },
