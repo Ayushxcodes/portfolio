@@ -27,7 +27,7 @@ body {
 
 /* App-specific global styles moved from page.tsx GLOBAL_CSS */
 html { scroll-behavior: smooth; }
-body { cursor: none; overflow-x: hidden; }
+body { cursor: auto; overflow-x: hidden; }
 ::selection { background: #d4ff47; color: #000; }
 @keyframes ticker {
   from { transform: translateX(0); }

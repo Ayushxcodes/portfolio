@@ -16,7 +16,7 @@ export default function Hero({ onHover, offHover, typedCmd, typedGit, gitCursorO
   return (
     <section className="min-h-screen flex flex-col justify-end px-12 pb-16 relative border-b border-[#222]">
       <div className="font-mono text-[0.75rem] text-[#d4ff47] tracking-[0.15em] border border-[#d4ff47] px-3 py-[0.35rem] w-fit mb-10">Available for hire — 2025</div>
-      <h1 className="font-serif leading-[0.9] tracking-[-0.02em] mb-4 text-[clamp(4.5rem,11vw,11rem)]">Alex<br /><em className="italic text-[#d4ff47]">Chen</em></h1>
+      <h1 className="font-serif leading-[0.9] tracking-[-0.02em] mb-4 text-[clamp(4.5rem,11vw,11rem)]">Ayush<br /><em className="italic text-[#d4ff47]">Pandey</em></h1>
       <p className="font-mono text-[0.9rem] text-[#6a6a6a] tracking-[0.05em] max-w-[420px] leading-[1.8] mb-12">Full Stack Engineer crafting<br /><span className="text-[#d4ff47]">scalable systems</span>{' & '}<span className="text-[#d4ff47]">delightful interfaces</span><br/>that people actually want to use.</p>
 
       <div className="flex items-end justify-between flex-wrap gap-4">
@@ -51,11 +51,11 @@ export default function Hero({ onHover, offHover, typedCmd, typedGit, gitCursorO
           <TermBar title="git log — main" />
           <div className="p-[14px_16px] text-[#555]">
             <div className="block"><span className="text-[#e5c07b]">commit</span> <span className="text-[#d4ff47]">a3f9c12</span></div>
-            <div className="block"><span className="text-[#444]">Author: Alex Chen</span></div>
+            <div className="block"><span className="text-[#444]">Author: Ayush Pandey</span></div>
             <div className="block"><span className="text-[#98c379]">✓ feat: add rate limiter middleware</span></div>
             <div className="block">&nbsp;</div>
             <div className="block"><span className="text-[#e5c07b]">commit</span> <span className="text-[#d4ff47]">7b2e841</span></div>
-            <div className="block"><span className="text-[#444]">Author: Alex Chen</span></div>
+            <div className="block"><span className="text-[#444]">Author: Ayush Pandey</span></div>
             <div className="block"><span className="text-[#98c379]">✓ refactor: db connection pooling</span></div>
             <div className="block">&nbsp;</div>
             <div className="block"><span className="text-[#e5c07b]">commit</span> <span className="text-[#d4ff47]">cc104fa</span></div>

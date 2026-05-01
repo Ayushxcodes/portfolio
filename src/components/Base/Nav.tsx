@@ -2,11 +2,13 @@ import Link from "next/link";
 
 export default function Nav({ scrolled, onHover, offHover }: { scrolled: boolean; onHover: () => void; offHover: () => void; }) {
   const LINKS: { label: string; href: string }[] = [
+    { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Skills', href: '/#skills' },
     { label: 'Work', href: '/projects' },
     { label: 'Experience', href: '/experience' },
     { label: 'Contact', href: '/contact' },
+    { label: 'Resume', href: '/resume' },
   ];
 
   return (
@@ -17,7 +19,7 @@ export default function Nav({ scrolled, onHover, offHover }: { scrolled: boolean
           ? 'border-b border-[#222] bg-[rgba(12,12,12,0.92)] backdrop-blur-md'
           : 'border-b border-transparent'}`}
     >
-      <div className="font-mono text-[0.85rem] text-[#d4ff47] tracking-[0.08em]">AC.dev</div>
+      <div className="font-mono text-[0.85rem] text-[#d4ff47] tracking-[0.08em]">AP.dev</div>
       <div className="hidden md:flex gap-10">
         {LINKS.map((link) => (
           <Link
