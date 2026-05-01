@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Nav({ scrolled, onHover, offHover }: { scrolled: boolean; onHover: () => void; offHover: () => void; }) {
   const LINKS: { label: string; href: string }[] = [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
     { label: 'Skills', href: '/#skills' },
+    { label: 'About', href: '/about' },
     { label: 'Work', href: '/projects' },
     { label: 'Experience', href: '/experience' },
     { label: 'Contact', href: '/contact' },
