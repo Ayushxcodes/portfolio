@@ -80,6 +80,33 @@ const PROJECTS = [
   },
 ];
 
+const EXPERIENCE = [
+  {
+    period: 'Nov 2025 — Present',
+    company: 'Saturn Consulting Group',
+    role: 'IT Associate / Software Engineer',
+    desc: 'Manage core internal IT systems, support enterprise cloud environments, and administer database architectures for client delivery systems.',
+    achievements: [
+      'Administered migration of critical legacy databases to optimized PostgreSQL configurations, reducing response latency and system load.',
+      'Assisted in developing and maintaining Docker environments and Git-based deployment workflows.',
+      'Monitored cloud resources across AWS, resolving infrastructure incidents to maintain system availability.',
+    ],
+    tags: ['IT Support', 'System Administration', 'Docker', 'AWS', 'PostgreSQL'],
+  },
+  {
+    period: 'Jan 2025 — Nov 2025',
+    company: 'Paper Theory Network',
+    role: 'Full Stack Engineer',
+    desc: 'Engineered rich media players, interactive video tools, and low-latency digital assets for high-traffic content networks.',
+    achievements: [
+      'Developed a custom video component utilizing intersection-based lazy playback and hover interactions to decrease network load.',
+      'Designed real-time dashboard elements and analytics integrations using WebSockets and React.',
+      'Collaborated on active-page navigation refinements and custom UI micro-animations, significantly boosting user retention.',
+    ],
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'WebSockets', 'Media Streaming'],
+  },
+];
+
 
 const CMDS = [
   'npm run dev',
@@ -218,7 +245,7 @@ export default function Portfolio() {
 
       <Projects projects={PROJECTS} onHover={onHover} offHover={offHover} />
 
-      <ExperienceSection />
+      <ExperienceSection experience={EXPERIENCE} />
 
       <Contact onHover={onHover} offHover={offHover} />
     </div>

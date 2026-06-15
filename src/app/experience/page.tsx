@@ -8,7 +8,7 @@ import EducationList from "../../components/ExperiencePage/EducationList";
 import SkillsMatrix from "../../components/ExperiencePage/SkillsMatrix";
 import WritingSpeaking from "../../components/ExperiencePage/WritingSpeaking";
 import CTA from "../../components/ExperiencePage/CTA";
-import { QUICK_STATS, EDUCATION, SKILLS, WRITING, SPEAKING } from "../../components/ExperiencePage/data";
+import { QUICK_STATS, EXPERIENCE, EDUCATION, SKILLS, WRITING, SPEAKING } from "../../components/ExperiencePage/data";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -94,7 +94,7 @@ export default function ExperiencePage() {
 
       <QuickStats stats={QUICK_STATS} />
 
-      <ExperienceList assignRef={(i, el) => { fadeRefs.current[i] = el; }} onHover={ho} onLeave={hu} />
+      <ExperienceList experience={EXPERIENCE} assignRef={(i, el) => { fadeRefs.current[i] = el; }} onHover={ho} onLeave={hu} />
 
       <EducationList education={EDUCATION} />
 

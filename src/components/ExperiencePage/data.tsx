@@ -7,7 +7,36 @@ export const QUICK_STATS = [
   { num: "12M",label: "Users reached" },
 ];
 
-export const EXPERIENCE: any[] = [];
+export const EXPERIENCE = [
+  {
+    logo: "SAT",
+    period: "Nov 2025 — Present",
+    company: "Saturn Consulting Group",
+    type: "Full-time",
+    role: "IT Associate / Software Engineer",
+    desc: "Manage core internal IT systems, support enterprise cloud environments, and administer database architectures for client delivery systems.",
+    achievements: [
+      <>Administered migration of critical legacy databases to optimized <strong className="text-[#f0ede6]">PostgreSQL</strong> configurations, reducing response latency and system load.</>,
+      <>Assisted in developing and maintaining Docker environments and Git-based deployment workflows.</>,
+      <>Monitored cloud resources across <strong className="text-[#f0ede6]">AWS</strong>, resolving infrastructure incidents to maintain system availability.</>,
+    ],
+    tags: ["IT Support", "System Administration", "Docker", "AWS", "PostgreSQL"],
+  },
+  {
+    logo: "PTN",
+    period: "Jan 2025 — Nov 2025",
+    company: "Paper Theory Network",
+    type: "Full-time",
+    role: "Full Stack Engineer",
+    desc: "Engineered rich media players, interactive video tools, and low-latency digital assets for high-traffic content networks.",
+    achievements: [
+      <>Developed a custom video component utilizing intersection-based <strong className="text-[#f0ede6]">lazy playback</strong> and hover interactions to decrease network load.</>,
+      <>Designed real-time dashboard elements and analytics integrations using <strong className="text-[#f0ede6]">WebSockets</strong> and React.</>,
+      <>Collaborated on active-page navigation refinements and custom UI micro-animations, significantly boosting user retention.</>,
+    ],
+    tags: ["React", "TypeScript", "Tailwind CSS", "Node.js", "WebSockets", "Media Streaming"],
+  },
+];
 
 export const EDUCATION = [
   {
@@ -59,4 +88,4 @@ export const SPEAKING = [
   { name: "Bay Area Systems Meetup",  detail: 'Monthly talk · "Distributed Caching Patterns" · June 2023 · San Francisco' },
 ];
 
-export default {};
+
