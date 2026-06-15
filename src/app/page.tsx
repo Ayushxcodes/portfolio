@@ -80,45 +80,6 @@ const PROJECTS = [
   },
 ];
 
-const EXPERIENCE = [
-  {
-    period: 'Jan 2023 — Present',
-    company: 'Stripe',
-    role: 'Senior Software Engineer',
-    desc: "Lead engineer on the Payments Dashboard team within Stripe's merchant experience org. Own the frontend architecture for the core dashboard used by 4 million merchants worldwide.",
-    achievements: [
-      'Rebuilt the payments overview page with React Server Components, reducing initial load time by 62% and cutting client bundle size by 44%.',
-      'Designed and implemented a real-time notification system using Server-Sent Events, replacing a polling approach that generated 8M unnecessary API calls/day.',
-      'Drove adoption of TypeScript strict mode across 220k lines of frontend code via a 3-month incremental migration — zero production regressions.',
-      'Mentored 3 junior engineers through structured 1:1s and pair programming; all promoted within 18 months.',
-    ],
-    tags: ['React', 'TypeScript', 'Next.js', 'Ruby on Rails', 'Go', 'GraphQL'],
-  },
-  {
-    period: 'Mar 2021 — Dec 2022',
-    company: 'Vercel',
-    role: 'Software Engineer II',
-    desc: 'Member of the Edge Network team responsible for the infrastructure powering Next.js serverless functions and Edge middleware deployments globally.',
-    achievements: [
-      'Designed and shipped a cold-start optimization for Node.js serverless functions that reduced P99 startup latency from 420ms to 82ms globally.',
-      'Built the Edge Config feature from 0 to GA: a globally replicated key-value store providing sub-1ms reads at the edge, used by 50k+ deployments.',
-      'Led incident response for a multi-region outage affecting 300k deployments; authored the postmortem and drove infra changes to prevent recurrence.',
-    ],
-    tags: ['Node.js', 'Rust', 'Cloudflare Workers', 'AWS Lambda', 'Terraform'],
-  },
-  {
-    period: 'Jun 2019 — Feb 2021',
-    company: 'Notion',
-    role: 'Full Stack Engineer',
-    desc: "Early engineer on the Collaboration team. Worked on real-time editing, comments, and sharing infrastructure during Notion's hypergrowth phase (0.5M → 4M users).",
-    achievements: [
-      'Implemented real-time multiplayer editing using operational transforms; system handled 10k concurrent collaborating users at peak.',
-      'Built the public page sharing feature end-to-end: access controls, SEO, and a Cloudflare caching layer that reduced origin load by 85%.',
-      'Helped grow the codebase from 50k to 300k lines while maintaining 98% test coverage through TDD and mandatory PR review.',
-    ],
-    tags: ['React', 'Node.js', 'PostgreSQL', 'Redis', 'Electron'],
-  },
-];
 
 const CMDS = [
   'npm run dev',
@@ -257,7 +218,7 @@ export default function Portfolio() {
 
       <Projects projects={PROJECTS} onHover={onHover} offHover={offHover} />
 
-      <ExperienceSection experience={EXPERIENCE} />
+      <ExperienceSection />
 
       <Contact onHover={onHover} offHover={offHover} />
     </div>
