@@ -30,17 +30,17 @@ export default function Hero({ onHover, offHover, typedCmd, typedGit, gitCursorO
         <div className="animate-float-1 absolute w-[360px] top-40 right-40 z-[3] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg overflow-hidden font-mono text-[0.7rem] leading-[1.75]" style={{ boxShadow: termShadow }}>
           <TermBar title="server.ts — nexus-api" />
           <div className="p-[14px_16px] text-[#555]">
-            <div className="block"><span className="text-[#c678dd]">import</span> <span className="text-[#abb2bf]">{'{ createServer }'}</span> <span className="text-[#c678dd]">from</span> <span className="text-[#98c379]">'./core'</span><span className="text-[#abb2bf]">;</span></div>
-            <div className="block"><span className="text-[#c678dd]">import</span> <span className="text-[#abb2bf]">{'{ authMiddleware, rateLimiter }'}</span> <span className="text-[#c678dd]">from</span> <span className="text-[#98c379]">'./middleware'</span><span className="text-[#abb2bf]">;</span></div>
+            <div className="block"><span className="text-[#c678dd]">import</span> <span className="text-[#abb2bf]">{'{ createServer }'}</span> <span className="text-[#c678dd]">from</span> <span className="text-[#98c379]">&apos;./core&apos;</span><span className="text-[#abb2bf]">;</span></div>
+            <div className="block"><span className="text-[#c678dd]">import</span> <span className="text-[#abb2bf]">{'{ authMiddleware, rateLimiter }'}</span> <span className="text-[#c678dd]">from</span> <span className="text-[#98c379]">&apos;./middleware&apos;</span><span className="text-[#abb2bf]">;</span></div>
             <div className="block">&nbsp;</div>
             <div className="block"><span className="text-[#c678dd]">const</span> <span className="text-[#61afef]">app</span> <span className="text-[#abb2bf]">{`= createServer({`}</span></div>
             <div className="block"><span className="text-[#abb2bf]">{'  port:'}</span> <span className="text-[#e5c07b]">8080</span><span className="text-[#abb2bf]">,</span></div>
             <div className="block"><span className="text-[#abb2bf]">{'  middleware: ['}</span><span className="text-[#61afef]">authMiddleware</span><span className="text-[#abb2bf]">, </span><span className="text-[#61afef]">rateLimiter</span><span className="text-[#abb2bf]">],</span></div>
-            <div className="block"><span className="text-[#abb2bf]">{'  db: '}</span><span className="text-[#98c379]">'postgresql://localhost/nexus'</span><span className="text-[#abb2bf]">,</span></div>
+            <div className="block"><span className="text-[#abb2bf]">{'  db: '}</span><span className="text-[#98c379]">&apos;postgresql://localhost/nexus&apos;</span><span className="text-[#abb2bf]">,</span></div>
             <div className="block"><span className="text-[#abb2bf]">{'});'}</span></div>
             <div className="block">&nbsp;</div>
             <div className="block"><span className="text-[#61afef]">app</span><span className="text-[#abb2bf]">.</span><span className="text-[#d4ff47]">listen</span><span className="text-[#abb2bf]">{`(() => {`}</span></div>
-            <div className="block"><span className="text-[#abb2bf]">  console.</span><span className="text-[#d4ff47]">log</span><span className="text-[#abb2bf]">('Server ready on :8080');</span></div>
+            <div className="block"><span className="text-[#abb2bf]">  console.</span><span className="text-[#d4ff47]">log</span><span className="text-[#abb2bf]">(&apos;Server ready on :8080&apos;);</span></div>
             <div className="block">{'});'}</div>
             <div className="block">&nbsp;</div>
             <div className="block"><span className="text-[#d4ff47]">❯</span> <span className="text-[#abb2bf]">{typedCmd}</span> <span className="animate-cursor-blink inline-block w-[6px] h-[0.8em] bg-[#d4ff47] align-middle ml-px" /></div>
