@@ -15,7 +15,7 @@ export default function Hero({ onHover, offHover, typedCmd, typedGit, gitCursorO
 
   return (
     <section className="min-h-screen flex flex-col justify-end px-4 md:px-12 pb-16 relative border-b border-[#222]">
-      <div className="font-mono text-[0.75rem] text-[#d4ff47] tracking-[0.15em] border border-[#d4ff47] px-3 py-[0.35rem] w-fit mb-10">Available for hire — 2025</div>
+      <div className="font-mono text-[0.75rem] text-[#d4ff47] tracking-[0.15em] border border-[#d4ff47] px-3 py-[0.35rem] w-fit mb-10">Available for hire — 2026</div>
       <h1 className="font-serif leading-[0.9] tracking-[-0.02em] mb-4 text-[clamp(4.5rem,11vw,11rem)]">Ayush<br /><em className="italic text-[#d4ff47]">Pandey</em></h1>
       <p className="font-mono text-[0.9rem] text-[#6a6a6a] tracking-[0.05em] max-w-full md:max-w-[420px] leading-[1.8] mb-12">Full Stack Engineer crafting<br /><span className="text-[#d4ff47]">scalable systems</span>{' & '}<span className="text-[#d4ff47]">delightful interfaces</span><br/>that people actually want to use.</p>
 
