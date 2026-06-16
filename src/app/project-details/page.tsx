@@ -179,13 +179,13 @@ export default function CaseStudyPage() {
       <header className="pt-40 pb-20 px-12 border-b border-[#222]">
         {/* Breadcrumb */}
         <div className="font-['JetBrains_Mono',monospace] text-[0.7rem] text-[#6a6a6a] tracking-[0.1em] mb-8 flex items-center gap-3">
-          <a
-            href="projects.html"
+          <Link
+            href="/projects"
             onMouseEnter={ho} onMouseLeave={hu}
             className="text-[#6a6a6a] no-underline transition-colors duration-200 hover:text-[#d4ff47]"
           >
             Work
-          </a>
+          </Link>
           <span>/</span>
           <span>Nexus Dashboard</span>
         </div>
@@ -491,13 +491,13 @@ export default function CaseStudyPage() {
           <div className="font-['DM_Serif_Display',serif] text-[2rem] mb-8">
             StoreFront Engine
           </div>
-          <a
-            href="project-detail.html"
+          <Link
+            href="/project-details"
             onMouseEnter={ho} onMouseLeave={hu}
             className="inline-flex items-center gap-2 font-['JetBrains_Mono',monospace] text-[0.75rem] text-[#d4ff47] tracking-[0.1em] uppercase no-underline transition-[gap] duration-200 hover:gap-4 w-fit"
           >
             View project →
-          </a>
+          </Link>
         </div>
         <div className="px-12 py-16 flex flex-col justify-between">
           <div className="font-['JetBrains_Mono',monospace] text-[0.65rem] text-[#6a6a6a] tracking-[0.15em] uppercase mb-6">
@@ -506,13 +506,13 @@ export default function CaseStudyPage() {
           <div className="font-['DM_Serif_Display',serif] text-[2rem] mb-8">
             Orchid CMS
           </div>
-          <a
-            href="project-detail.html"
+          <Link
+            href="/project-details"
             onMouseEnter={ho} onMouseLeave={hu}
             className="inline-flex items-center gap-2 font-['JetBrains_Mono',monospace] text-[0.75rem] text-[#d4ff47] tracking-[0.1em] uppercase no-underline transition-[gap] duration-200 hover:gap-4 w-fit"
           >
             View project →
-          </a>
+          </Link>
         </div>
       </div>
 

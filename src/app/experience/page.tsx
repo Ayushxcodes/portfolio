@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CustomCursor from "../../components/ExperiencePage/CustomCursor";
 import Header from "../../components/ExperiencePage/Header";
 import QuickStats from "../../components/ExperiencePage/QuickStats";
@@ -8,7 +8,34 @@ import EducationList from "../../components/ExperiencePage/EducationList";
 import SkillsMatrix from "../../components/ExperiencePage/SkillsMatrix";
 import WritingSpeaking from "../../components/ExperiencePage/WritingSpeaking";
 import CTA from "../../components/ExperiencePage/CTA";
-import { QUICK_STATS, EXPERIENCE, EDUCATION, SKILLS, WRITING, SPEAKING } from "../../components/ExperiencePage/data";
+import portfolioDataRaw from "../../data/portfolio-data.json";
+
+// Markdown bold parser: parses **text** into <strong className="text-[#f0ede6]">text</strong>
+const parseBoldText = (text: string, boldColorClass = "text-[#f0ede6]") => {
+  if (typeof text !== "string") return text;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={index} className={boldColorClass}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+};
+
+// Education note parser: handles bold text and line breaks \n
+const formatNote = (text: string) => {
+  if (typeof text !== "string") return text;
+  return text.split("\n").map((line, i) => (
+    <React.Fragment key={i}>
+      {i > 0 && <br />}
+      {parseBoldText(line, "text-[#d4ff47]")}
+    </React.Fragment>
+  ));
+};
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -42,11 +69,22 @@ function SkillDots({ filled }: { filled: number }) {
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ExperiencePage() {
+  const [data, setData] = useState(portfolioDataRaw);
   const [cursorPos, setCursorPos]     = useState({ x: -100, y: -100 });
   const [cursorHover, setCursorHover] = useState(false);
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    // Fetch latest portfolio data
+    fetch("/api/portfolio")
+      .then((res) => res.json())
+      .then((dynData) => {
+        if (dynData && !dynData.error) {
+          setData(dynData);
+        }
+      })
+      .catch((err) => console.error("Error fetching portfolio data:", err));
+
     const link = document.createElement("link");
     link.rel  = "stylesheet";
     link.href = "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap";
@@ -85,6 +123,17 @@ export default function ExperiencePage() {
   const ho = () => setCursorHover(true);
   const hu = () => setCursorHover(false);
 
+  // Parse structured data for component consumption
+  const parsedExperience = data.experiencePage.experience.map((exp) => ({
+    ...exp,
+    achievements: exp.achievements.map((ach) => parseBoldText(ach)),
+  }));
+
+  const parsedEducation = data.experiencePage.education.map((edu) => ({
+    ...edu,
+    note: formatNote(edu.note),
+  }));
+
   return (
     <div className="bg-[#0c0c0c] text-[#f0ede6] font-['Syne',sans-serif] cursor-none overflow-x-hidden min-h-screen scroll-smooth selection:bg-[#d4ff47] selection:text-black">
 
@@ -92,15 +141,15 @@ export default function ExperiencePage() {
 
       <Header onHover={ho} onLeave={hu} />
 
-      <QuickStats stats={QUICK_STATS} />
+      <QuickStats stats={data.experiencePage.quickStats} />
 
-      <ExperienceList experience={EXPERIENCE} assignRef={(i, el) => { fadeRefs.current[i] = el; }} onHover={ho} onLeave={hu} />
+      <ExperienceList experience={parsedExperience} assignRef={(i, el) => { fadeRefs.current[i] = el; }} onHover={ho} onLeave={hu} />
 
-      <EducationList education={EDUCATION} />
+      <EducationList education={parsedEducation} />
 
-      <SkillsMatrix skills={SKILLS} onHover={ho} onLeave={hu} />
+      <SkillsMatrix skills={data.experiencePage.skills} onHover={ho} onLeave={hu} />
 
-      <WritingSpeaking writing={WRITING} speaking={SPEAKING} onHover={ho} onLeave={hu} />
+      <WritingSpeaking writing={data.experiencePage.writing} speaking={data.experiencePage.speaking} onHover={ho} onLeave={hu} />
 
       <CTA onHover={ho} onLeave={hu} />
 

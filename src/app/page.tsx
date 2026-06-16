@@ -10,119 +10,27 @@ import ExperienceSection from '../components/Landing/ExperienceSection';
 import Contact from '../components/Landing/Contact';
 import SectionLabel from '../components/Landing/SectionLabel';
 
-// ─── Data ────────────────────────────────────────────────────────────────────
-const TICKER_ITEMS = [
-  { label: 'React',        highlight: true  },
-  { label: 'Node.js',      highlight: false },
-  { label: 'TypeScript',   highlight: true  },
-  { label: 'PostgreSQL',   highlight: false },
-  { label: 'AWS',          highlight: false },
-  { label: 'Next.js',      highlight: true  },
-  { label: 'GraphQL',      highlight: false },
-  { label: 'Docker',       highlight: false },
-  { label: 'Redis',        highlight: true  },
-  { label: 'Kubernetes',   highlight: false },
-  { label: 'Python',       highlight: false },
-  { label: 'Tailwind CSS', highlight: true  },
-];
+import portfolioDataRaw from '../data/portfolio-data.json';
 
-const SKILLS = [
-  {
-    icon: '[ frontend ]',
-    name: 'Interface',
-    items: ['React / Next.js', 'TypeScript', 'CSS / Tailwind', 'Framer Motion', 'Web Performance'],
-    bar: 96,
-  },
-  {
-    icon: '[ backend ]',
-    name: 'Server',
-    items: ['Node.js / Express', 'Python / FastAPI', 'GraphQL / REST', 'WebSockets', 'Microservices'],
-    bar: 91,
-  },
-  {
-    icon: '[ data ]',
-    name: 'Database',
-    items: ['PostgreSQL', 'Redis', 'MongoDB', 'Prisma / Drizzle', 'ElasticSearch'],
-    bar: 85,
-  },
-  {
-    icon: '[ cloud ]',
-    name: 'DevOps',
-    items: ['AWS / GCP', 'Docker / K8s', 'GitHub Actions', 'Terraform', 'Observability'],
-    bar: 78,
-  },
-];
-
-const PROJECTS = [
-  {
-    num: '001',
-    title: 'Nexus Dashboard',
-    desc: 'Real-time analytics platform processing 2M+ events/day with sub-100ms query response times. Built for a Series B fintech startup.',
-    tags: ['Next.js', 'ClickHouse', 'WebSockets', 'AWS'],
-  },
-  {
-    num: '002',
-    title: 'Orchid CMS',
-    desc: 'Headless content management system with a visual page builder, multi-tenant architecture, and full-text search across 10M documents.',
-    tags: ['React', 'Node.js', 'PostgreSQL', 'ElasticSearch'],
-  },
-  {
-    num: '003',
-    title: 'Flux API Gateway',
-    desc: 'Open-source API gateway with rate limiting, auth middleware, and request/response transformation. 1.2k GitHub stars.',
-    tags: ['Go', 'Redis', 'Docker', 'Open Source'],
-  },
-  {
-    num: '004',
-    title: 'Verse — Social Reading',
-    desc: 'Mobile-first app for social book annotation and discussion. 40k active users. Featured on Product Hunt #2 of the day.',
-    tags: ['React Native', 'GraphQL', 'Supabase', 'Expo'],
-  },
-];
-
-const EXPERIENCE = [
-  {
-    period: 'Nov 2025 — Present',
-    company: 'Saturn Consulting Group',
-    role: 'IT Associate / Software Engineer',
-    desc: 'Manage core internal IT systems, support enterprise cloud environments, and administer database architectures for client delivery systems.',
-    achievements: [
-      'Administered migration of critical legacy databases to optimized PostgreSQL configurations, reducing response latency and system load.',
-      'Assisted in developing and maintaining Docker environments and Git-based deployment workflows.',
-      'Monitored cloud resources across AWS, resolving infrastructure incidents to maintain system availability.',
-    ],
-    tags: ['IT Support', 'System Administration', 'Docker', 'AWS', 'PostgreSQL'],
-  },
-  {
-    period: 'Jan 2025 — Nov 2025',
-    company: 'Paper Theory Network',
-    role: 'Full Stack Engineer',
-    desc: 'Engineered rich media players, interactive video tools, and low-latency digital assets for high-traffic content networks.',
-    achievements: [
-      'Developed a custom video component utilizing intersection-based lazy playback and hover interactions to decrease network load.',
-      'Designed real-time dashboard elements and analytics integrations using WebSockets and React.',
-      'Collaborated on active-page navigation refinements and custom UI micro-animations, significantly boosting user retention.',
-    ],
-    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'WebSockets', 'Media Streaming'],
-  },
-];
-
-
-const CMDS = [
-  'npm run dev',
-  'npx prisma migrate dev',
-  'docker compose up -d',
-  'git push origin main',
-  'kubectl rollout status',
-];
-
-// Global styles moved to `src/app/globals.css` (imported by `layout.tsx`).
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-// Term visuals moved into `Hero` component; helpers removed.
+// Markdown bold parser: parses **text** into <strong className="text-[#f0ede6]">text</strong>
+const parseBoldText = (text: string, boldColorClass = "text-[#f0ede6]") => {
+  if (typeof text !== "string") return text;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={index} className={boldColorClass}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+};
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function Portfolio() {
+  const [data, setData] = useState(portfolioDataRaw);
   const [scrolled,    setScrolled]    = useState(false);
   const [cursorPos,   setCursorPos]   = useState({ x: -100, y: -100 });
   const [cursorHover, setCursorHover] = useState(false);
@@ -135,7 +43,23 @@ export default function Portfolio() {
   const erasing  = useRef(false);
   const cmdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Global styles are provided via `src/app/globals.css` (no runtime injection needed).
+  // Keep a ref to the cycling commands to avoid stale closures in the typewriter effect
+  const cmdsRef = useRef(data.landing.cmds);
+  useEffect(() => {
+    cmdsRef.current = data.landing.cmds;
+  }, [data.landing.cmds]);
+
+  // Fetch dynamic portfolio data
+  useEffect(() => {
+    fetch('/api/portfolio')
+      .then((res) => res.json())
+      .then((dynData) => {
+        if (dynData && !dynData.error) {
+          setData(dynData);
+        }
+      })
+      .catch((err) => console.error("Error fetching portfolio data:", err));
+  }, []);
 
   // ── Custom cursor ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -171,7 +95,8 @@ export default function Portfolio() {
   // ── Typewriter — cycling commands (Terminal 1) ────────────────────────────
   useEffect(() => {
     const tick = () => {
-      const cmd = CMDS[cmdIdx.current];
+      const currentCmds = cmdsRef.current || [];
+      const cmd = currentCmds[cmdIdx.current] || '';
       if (!erasing.current) {
         charIdx.current += 1;
         setTypedCmd(cmd.slice(0, charIdx.current));
@@ -186,7 +111,7 @@ export default function Portfolio() {
         setTypedCmd(cmd.slice(0, charIdx.current));
         if (charIdx.current === 0) {
           erasing.current = false;
-          cmdIdx.current = (cmdIdx.current + 1) % CMDS.length;
+          cmdIdx.current = currentCmds.length > 0 ? (cmdIdx.current + 1) % currentCmds.length : 0;
           cmdTimer.current = setTimeout(tick, 400);
           return;
         }
@@ -217,6 +142,12 @@ export default function Portfolio() {
   const onHover  = useCallback(() => setCursorHover(true),  []);
   const offHover = useCallback(() => setCursorHover(false), []);
 
+  // Parse experience achievements
+  const parsedExperience = data.landing.experience.map((exp) => ({
+    ...exp,
+    achievements: exp.achievements.map((ach) => parseBoldText(ach)),
+  }));
+
   return (
     <div className="bg-[#0c0c0c] text-[#f0ede6] font-sans overflow-x-hidden min-h-screen">
 
@@ -237,15 +168,15 @@ export default function Portfolio() {
 
       <Hero onHover={onHover} offHover={offHover} typedCmd={typedCmd} typedGit={typedGit} gitCursorOn={gitCursorOn} />
 
-      <Ticker items={TICKER_ITEMS} />
+      <Ticker items={data.landing.tickerItems} />
 
       <About />
 
-      <Skills skills={SKILLS} />
+      <Skills skills={data.landing.skills} />
 
-      <Projects projects={PROJECTS} onHover={onHover} offHover={offHover} />
+      <Projects projects={data.landing.projects} onHover={onHover} offHover={offHover} />
 
-      <ExperienceSection experience={EXPERIENCE} />
+      <ExperienceSection experience={parsedExperience} />
 
       <Contact onHover={onHover} offHover={offHover} />
     </div>

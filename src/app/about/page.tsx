@@ -7,14 +7,25 @@ import ValuesGrid from "../../components/AboutPage/ValuesGrid";
 import StackGrid from "../../components/AboutPage/StackGrid";
 import OutsideGrid from "../../components/AboutPage/OutsideGrid";
 import CTA from "../../components/AboutPage/CTA";
-import { values, stack, outside, storyLinks } from "../../components/AboutPage/data";
+import portfolioDataRaw from "../../data/portfolio-data.json";
 
 export default function AboutPage() {
+  const [data, setData] = useState(portfolioDataRaw);
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [cursorHover, setCursorHover] = useState(false);
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    // Fetch latest portfolio data
+    fetch("/api/portfolio")
+      .then((res) => res.json())
+      .then((dynData) => {
+        if (dynData && !dynData.error) {
+          setData(dynData);
+        }
+      })
+      .catch((err) => console.error("Error fetching portfolio data:", err));
+
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href =
@@ -65,13 +76,13 @@ export default function AboutPage() {
 
       <AboutHeader onHover={ho} onLeave={hu} />
 
-      <StorySection storyLinks={storyLinks} onHover={ho} onLeave={hu} />
+      <StorySection story={data.aboutPage.story} onHover={ho} onLeave={hu} />
 
-      <ValuesGrid values={values} onHover={ho} onLeave={hu} assignRef={assignRef} />
+      <ValuesGrid values={data.aboutPage.values} onHover={ho} onLeave={hu} assignRef={assignRef} />
 
-      <StackGrid stack={stack} onHover={ho} onLeave={hu} />
+      <StackGrid stack={data.aboutPage.stack} onHover={ho} onLeave={hu} />
 
-      <OutsideGrid outside={outside} />
+      <OutsideGrid outside={data.aboutPage.outside} />
 
       <CTA onHover={ho} onLeave={hu} />
     </div>

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 
 export interface ProjectGridItem {
   svg: React.ReactNode;
@@ -15,10 +16,10 @@ export default function ProjectsGrid({ projects, assignRef, onHover, onLeave }: 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 border-b border-[#222]">
       {projects.map((p, i) => (
-        <a
+        <Link
           key={i}
-          href="project-detail.html"
-          ref={(el) => { assignRef(i, el); }}
+          href="/project-details"
+          ref={(el: any) => { assignRef(i, el); }}
           onMouseEnter={onHover}
           onMouseLeave={onLeave}
           className={[
@@ -45,7 +46,7 @@ export default function ProjectsGrid({ projects, assignRef, onHover, onLeave }: 
               <span className="text-[1.2rem] text-[#d4ff47] opacity-0 -translate-x-[6px] translate-y-[6px] transition-[opacity,transform] duration-[250ms] group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0">↗</span>
             </div>
           </div>
-        </a>
+        </Link>
       ))}
     </div>
   );
