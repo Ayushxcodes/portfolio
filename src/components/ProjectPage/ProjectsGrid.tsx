@@ -19,7 +19,7 @@ export default function ProjectsGrid({ projects, assignRef, onHover, onLeave }: 
         <Link
           key={i}
           href="/project-details"
-          ref={(el: any) => { assignRef(i, el); }}
+          ref={(el: HTMLAnchorElement | null) => { assignRef(i, el); }}
           onMouseEnter={onHover}
           onMouseLeave={onLeave}
           className={[

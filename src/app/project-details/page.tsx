@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -275,13 +276,13 @@ export default function CaseStudyPage() {
               The brief
             </h2>
             <p className="text-[1rem] text-[#bbb] leading-[1.95] mb-5">
-              Meridian Financial (name changed) had a problem: their data team was spending 3–4 hours each morning running Python scripts to generate the previous day's performance reports. Business stakeholders couldn't get answers to simple questions without filing a data request and waiting 48 hours.
+              Meridian Financial (name changed) had a problem: their data team was spending 3–4 hours each morning running Python scripts to generate the previous day&apos;s performance reports. Business stakeholders couldn&apos;t get answers to simple questions without filing a data request and waiting 48 hours.
             </p>
             <p className="text-[1rem] text-[#bbb] leading-[1.95] mb-5">
               They needed a <strong className="text-[#f0ede6]">self-service analytics platform</strong> that their operations team could use without SQL knowledge — with data fresh enough to make same-day decisions on.
             </p>
             <Callout>
-              <strong className="text-[#d4ff47]">Constraint:</strong> The previous analytics vendor cost $120k/year and still couldn't deliver sub-minute data freshness. Our target was real-time (under 5 seconds) with a total infrastructure cost under $3k/month.
+              <strong className="text-[#d4ff47]">Constraint:</strong> The previous analytics vendor cost $120k/year and still couldn&apos;t deliver sub-minute data freshness. Our target was real-time (under 5 seconds) with a total infrastructure cost under $3k/month.
             </Callout>
           </section>
 
@@ -296,7 +297,7 @@ export default function CaseStudyPage() {
               Why existing solutions failed
             </h2>
             <p className="text-[1rem] text-[#bbb] leading-[1.95] mb-5">
-              We audited four existing analytics platforms. Each failed in at least one critical dimension: either they couldn't handle the event volume, the query latency was too high for real-time use, the cost was prohibitive at scale, or the embedding options were too limited for white-labeling into Meridian's own product.
+              We audited four existing analytics platforms. Each failed in at least one critical dimension: either they couldn&apos;t handle the event volume, the query latency was too high for real-time use, the cost was prohibitive at scale, or the embedding options were too limited for white-labeling into Meridian&apos;s own product.
             </p>
             <p className="text-[1rem] text-[#bbb] leading-[1.95] mb-5">
               The core technical challenge was{" "}
@@ -315,7 +316,7 @@ export default function CaseStudyPage() {
               How we built it
             </h2>
             <p className="text-[1rem] text-[#bbb] leading-[1.95] mb-5">
-              The solution centered on a purpose-built stack designed around each layer's strength. Rather than forcing one database to do everything, we separated concerns aggressively.
+              The solution centered on a purpose-built stack designed around each layer&apos;s strength. Rather than forcing one database to do everything, we separated concerns aggressively.
             </p>
 
             {/* Architecture diagram */}
@@ -374,7 +375,7 @@ export default function CaseStudyPage() {
                 {");\n\n  sub."}
                 <span className="text-[#81a1c1]">on</span>
                 {"("}
-                <span className="text-[#88c0d0]">'message'</span>
+                <span className="text-[#88c0d0]">message</span>
                 {", (_, data) => {\n    "}
                 <span className="text-[#d4ff47]">if </span>
                 {"(ws.readyState === WebSocket.OPEN) {\n      ws."}
@@ -382,7 +383,7 @@ export default function CaseStudyPage() {
                 {"(data);\n    }\n  });\n\n  ws."}
                 <span className="text-[#81a1c1]">on</span>
                 {"("}
-                <span className="text-[#88c0d0]">'close'</span>
+                <span className="text-[#88c0d0]">close</span>
                 {", () => sub."}
                 <span className="text-[#81a1c1]">unsubscribe</span>
                 {"());\n};"}
@@ -445,7 +446,7 @@ export default function CaseStudyPage() {
               <em className="italic text-[#d4ff47]">15 hours per week</em> that had been spent on manual reporting.
             </p>
             <p className="text-[1rem] text-[#bbb] leading-[1.95] mb-5">
-              The platform has since been extended to support 3 new product lines that weren't in the original scope, with no architectural changes required — a good sign that the foundation held.
+              The platform has since been extended to support 3 new product lines that weren&apos;t in the original scope, with no architectural changes required — a good sign that the foundation held.
             </p>
           </section>
 

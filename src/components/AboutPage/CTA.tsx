@@ -6,7 +6,7 @@ export default function CTA({ onHover, onLeave }: { onHover: () => void; onLeave
   return (
     <section className="px-12 py-24 text-center">
       <h2 className="font-['DM_Serif_Display',serif] text-[clamp(2.5rem,5vw,5rem)] leading-[1] mb-8">
-        Want to work<br />together? <em className="italic text-[#d4ff47]">Let's talk.</em>
+        Want to work<br />together? <em className="italic text-[#d4ff47]">Let&apos;s talk.</em>
       </h2>
       <div className="flex justify-center gap-4 flex-wrap mt-8">
         <Link
