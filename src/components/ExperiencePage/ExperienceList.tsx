@@ -2,7 +2,18 @@
 import React from "react";
 import SectionLabel from "./SectionLabel";
 
-export default function ExperienceList({ experience, assignRef, onHover, onLeave }: { experience: any[]; assignRef: (i: number, el: HTMLDivElement | null) => void; onHover: () => void; onLeave: () => void; }) {
+export interface Job {
+  logo: string;
+  period: string;
+  company: string;
+  type: string;
+  role: string;
+  desc: string;
+  achievements: React.ReactNode[];
+  tags: string[];
+}
+
+export default function ExperienceList({ experience, assignRef, onHover, onLeave }: { experience: Job[]; assignRef: (i: number, el: HTMLDivElement | null) => void; onHover: () => void; onLeave: () => void; }) {
   return (
     <div className="px-12 border-b border-[#222]">
       <SectionLabel>Work experience</SectionLabel>
@@ -11,6 +22,8 @@ export default function ExperienceList({ experience, assignRef, onHover, onLeave
         <div
           key={i}
           ref={(el) => assignRef(i, el)}
+          onMouseEnter={onHover}
+          onMouseLeave={onLeave}
           className={[
             "grid grid-cols-1 md:grid-cols-[200px_1fr] gap-12 py-12 opacity-0 translate-y-7 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group",
             i < experience.length - 1 ? "border-b border-[#222]" : "",
@@ -27,7 +40,7 @@ export default function ExperienceList({ experience, assignRef, onHover, onLeave
             <div className="font-['DM_Serif_Display',serif] text-[2rem] mb-[0.5rem] leading-[1.1] text-[#f0ede6] group-hover:text-[#d4ff47] transition-colors duration-300">{job.role}</div>
             <p className="font-['JetBrains_Mono',monospace] text-[0.78rem] text-[#aaa] leading-[2] mb-6 max-w-[540px] group-hover:text-[#bbb] transition-colors duration-300">{job.desc}</p>
             <div className="flex flex-col gap-2 mb-6">
-              {job.achievements.map((ach: any, j: number) => (
+              {job.achievements.map((ach: React.ReactNode, j: number) => (
                 <div key={j} className="flex items-start gap-3 font-['JetBrains_Mono',monospace] text-[0.75rem] text-[#6a6a6a] leading-[1.7] group-hover:text-[#9a9a9a] transition-colors duration-300">
                   <span className="text-[#d4ff47] shrink-0 mt-[0.05em]">→</span>
                   <span>{ach}</span>

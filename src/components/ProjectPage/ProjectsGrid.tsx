@@ -1,7 +1,15 @@
 "use client";
 import React from "react";
 
-export default function ProjectsGrid({ projects, assignRef, onHover, onLeave }: { projects: any[]; assignRef: (i: number, el: HTMLAnchorElement | null) => void; onHover: () => void; onLeave: () => void; }) {
+export interface ProjectGridItem {
+  svg: React.ReactNode;
+  cat: string;
+  title: string;
+  desc: string;
+  tags: string[];
+}
+
+export default function ProjectsGrid({ projects, assignRef, onHover, onLeave }: { projects: ProjectGridItem[]; assignRef: (i: number, el: HTMLAnchorElement | null) => void; onHover: () => void; onLeave: () => void; }) {
   const cardBorder = (i: number) => (i % 3 !== 2 ? "border-r border-b border-[#222]" : "border-b border-[#222]");
 
   return (

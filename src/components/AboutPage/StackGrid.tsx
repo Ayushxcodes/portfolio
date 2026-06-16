@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
 
-export default function StackGrid({ stack, onHover, onLeave }: { stack: any[]; onHover: () => void; onLeave: () => void; }) {
+export interface StackItem {
+  cat: string;
+  name: string;
+  use: string;
+}
+
+export default function StackGrid({ stack, onHover, onLeave }: { stack: StackItem[]; onHover: () => void; onLeave: () => void; }) {
   const stackBorder = (i: number) => {
     const mobileRight = i % 2 !== 1;
     const desktopRight = i % 4 !== 3;

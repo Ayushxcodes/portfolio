@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
 
-export default function OutsideGrid({ outside }: { outside: any[] }) {
+export interface OutsideItem {
+  emoji: string;
+  title: string;
+  desc: string;
+}
+
+export default function OutsideGrid({ outside }: { outside: OutsideItem[] }) {
   return (
     <section id="outside" className="border-b border-[#222]">
       <div className="px-12 pt-24 pb-8">

@@ -1,5 +1,12 @@
 import React from 'react';
-export default function Projects({ projects, onHover, offHover }: { projects: any[]; onHover: () => void; offHover: () => void; }) {
+export interface LandingProjectItem {
+  num: string;
+  title: string;
+  desc: string;
+  tags: string[];
+}
+
+export default function Projects({ projects, onHover, offHover }: { projects: LandingProjectItem[]; onHover: () => void; offHover: () => void; }) {
   return (
     <section className="px-4 md:px-12 py-28 border-b border-[#222]" id="work">
       <div className="section-label-el font-mono text-[0.7rem] text-[#d4ff47] tracking-[0.2em] uppercase mb-12 flex items-center gap-4">03 — Selected Work</div>

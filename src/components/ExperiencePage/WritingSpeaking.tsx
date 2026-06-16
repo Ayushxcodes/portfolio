@@ -2,7 +2,12 @@
 import React from "react";
 import SectionLabel from "./SectionLabel";
 
-export default function WritingSpeaking({ writing, speaking, onHover, onLeave }: { writing: any[]; speaking: any[]; onHover: () => void; onLeave: () => void; }) {
+export interface Item {
+  name: string;
+  detail: string;
+}
+
+export default function WritingSpeaking({ writing, speaking, onHover, onLeave }: { writing: Item[]; speaking: Item[]; onHover: () => void; onLeave: () => void; }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 px-12 py-12 border-b border-[#222]">
       <div className="md:border-r border-[#222] md:pr-12 border-b md:border-b-0 pb-8 md:pb-0 mb-8 md:mb-0">

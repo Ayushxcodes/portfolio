@@ -1,7 +1,12 @@
 "use client";
 import React from "react";
 
-export default function FeaturedProject({ stats, tags, onHover, onLeave }: { stats: any[]; tags: string[]; onHover: () => void; onLeave: () => void; }) {
+export interface StatItem {
+  num: string;
+  label: string;
+}
+
+export default function FeaturedProject({ stats, tags, onHover, onLeave }: { stats: StatItem[]; tags: string[]; onHover: () => void; onLeave: () => void; }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-b border-[#222] min-h-[500px]">
       <div className="bg-[#141414] flex items-center justify-center overflow-hidden relative border-b md:border-b-0 md:border-r border-[#222] min-h-[260px]">

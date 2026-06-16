@@ -2,7 +2,14 @@
 import React from "react";
 import SectionLabel from "./SectionLabel";
 
-export default function EducationList({ education }: { education: any[] }) {
+export interface EducationItem {
+  year: string;
+  school: string;
+  degree: string;
+  note: React.ReactNode;
+}
+
+export default function EducationList({ education }: { education: EducationItem[] }) {
   return (
     <div className="px-12 border-b border-[#222]">
       <SectionLabel>Education</SectionLabel>

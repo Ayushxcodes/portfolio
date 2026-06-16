@@ -1,4 +1,15 @@
-export default function ExperienceSection({ experience }: { experience: any[] }) {
+import React from "react";
+
+export interface LandingExperienceItem {
+  period: string;
+  company: string;
+  role: string;
+  desc: string;
+  achievements?: React.ReactNode[];
+  tags?: string[];
+}
+
+export default function ExperienceSection({ experience }: { experience: LandingExperienceItem[] }) {
   return (
     <section className="px-4 md:px-12 py-20 md:py-28 border-b border-[#222]" id="experience">
       <div className="section-label-el font-mono text-[0.7rem] text-[#d4ff47] tracking-[0.2em] uppercase mb-12 flex items-center gap-4">
@@ -27,7 +38,7 @@ export default function ExperienceSection({ experience }: { experience: any[] })
               </div>
               {exp.achievements && (
                 <div className="mt-6 font-mono text-[0.72rem] text-[#6a6a6a] leading-[1.8] max-w-full md:max-w-[560px] space-y-2">
-                  {exp.achievements.map((a: string, i: number) => (
+                  {exp.achievements.map((a: React.ReactNode, i: number) => (
                     <div key={i} className="flex items-start gap-3 transition-colors duration-300 group-hover:text-[#9a9a9a]">
                       <span className="text-[#d4ff47] shrink-0 mt-[0.05em]">→</span>
                       <span>{a}</span>

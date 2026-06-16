@@ -1,7 +1,15 @@
 "use client";
 import React from "react";
 
-export default function OSSStrip({ oss, onHover, onLeave }: { oss: any[]; onHover: () => void; onLeave: () => void; }) {
+export interface OSSItem {
+  name: string;
+  desc: string;
+  stars: string;
+  forks: string;
+  lang: string;
+}
+
+export default function OSSStrip({ oss, onHover, onLeave }: { oss: OSSItem[]; onHover: () => void; onLeave: () => void; }) {
   return (
     <div className="px-12 py-20 border-b border-[#222]">
       <div className="flex items-end justify-between mb-10">

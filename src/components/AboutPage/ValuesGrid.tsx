@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
 
-export default function ValuesGrid({ values, onHover, onLeave, assignRef }: { values: any[]; onHover: () => void; onLeave: () => void; assignRef: (i: number, el: HTMLDivElement | null) => void; }) {
+export interface ValueItem {
+  num: string;
+  title: string;
+  desc: string;
+}
+
+export default function ValuesGrid({ values, onHover, onLeave, assignRef }: { values: ValueItem[]; onHover: () => void; onLeave: () => void; assignRef: (i: number, el: HTMLDivElement | null) => void; }) {
   const valueBorder = (i: number) => (i % 3 !== 2 ? "border-b border-r border-[#222]" : "border-b border-[#222]");
 
   return (
