@@ -9,8 +9,8 @@ export default function About() {
         </h2>
         <div className="fade-up pt-4 space-y-6">
           <p className="text-[1.05rem] leading-[1.9] text-[#bbb]">
-            I'm a full-stack engineer with{' '}
-            <strong className="text-[#f0ede6] font-bold">6 years of experience</strong>{' '}
+            I&apos;m a full-stack engineer with{' '}
+            <strong className="text-[#f0ede6] font-bold">2+ years of experience</strong>{' '}
             building high-performance web applications. I care deeply about clean architecture,
             developer experience, and shipping products that are both beautiful and fast.
           </p>

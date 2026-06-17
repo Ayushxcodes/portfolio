@@ -15,7 +15,7 @@ export default function AboutHeader({ onHover, onLeave }: { onHover: () => void;
       </div>
       <p className="font-['JetBrains_Mono',monospace] text-[0.85rem] text-[#aaa] leading-[2]">
         Full stack engineer, occasional writer, and habitual over-engineer of
-        personal projects. I've been building for the web for over six years —
+        personal projects. I&apos;ve been building for the web for over 3 years —
         from tiny side projects to infrastructure serving millions of users.
         <br /><br />
         This is a little more about who I am, how I think, and what drives the
